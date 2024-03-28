@@ -1,0 +1,13 @@
+# export and save only changed files
+stagedFiles=$(git diff --staged --name-only)
+
+# run SpotlessApply
+echo "Running spotlessApply. Formatting code..."
+./gradlew spotlessApply
+
+# replay git add files which changed occurred
+for file in $stagedFiles; do
+  if test -f "$file"; then
+    git add "$file"
+  fi
+done
