@@ -2,6 +2,9 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.4'
 	id 'io.spring.dependency-management' version '1.1.4'
+
+	// spotless plugin
+	id 'com.diffplug.spotless' version '6.23.3'
 }
 
 group = 'com.pickkasso'
@@ -9,6 +12,12 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
 }
 
 repositories {
@@ -34,4 +43,27 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+// compileJava 태스크가 실행되기 전에 spotlessApply 태스크가 먼저 실행되도록 구성
+tasks.named('compileJava') {
+	dependsOn 'spotlessApply'
+}
+
+spotless {
+	java {
+		// Google Java 포맷 적용
+		/*
+            googleJavaFormat() : 탭은 2개의 공백
+            googleJavaFormat().aosp() : 탭은 4개의 공백
+            Reference : https://github.com/google/google-java-format/issues/525
+         */
+		googleJavaFormat().aosp()
+		// 아래 순서로 import문 정렬
+		importOrder('java', 'javax', 'jakarta', 'org', 'com')
+		// 사용하지 않는 import 제거
+		removeUnusedImports()
+		// 각 라인 끝에 있는 공백을 제거
+		trimTrailingWhitespace()
+	}
 }
