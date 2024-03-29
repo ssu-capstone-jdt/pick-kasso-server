@@ -44,16 +44,10 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
-tasks.register('updateGitHooks', Copy) {
-	from new File(rootProject.rootDir, '.script/pre-commit')
-	into { new File(rootProject.rootDir, '.git/hooks') }
-	Runtime.getRuntime().exec("cmd /c chmod -R +x .git/hooks/")
-}
 
 // compileJava 태스크가 실행되기 전에 spotlessApply 태스크가 먼저 실행되도록 구성
 tasks.named('compileJava') {
 	dependsOn 'spotlessApply'
-	dependsOn 'updateGitHooks'
 }
 
 spotless {
