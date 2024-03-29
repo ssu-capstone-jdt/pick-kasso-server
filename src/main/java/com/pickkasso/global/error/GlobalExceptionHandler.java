@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
-public class GlobalExceptionHanlder extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(
             Exception ex,
