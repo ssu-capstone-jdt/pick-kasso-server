@@ -1,7 +1,9 @@
 package com.pickkasso.domain.member.domain;
 
-import com.pickkasso.domain.common.model.BaseEntity;
 import jakarta.persistence.*;
+
+import com.pickkasso.domain.common.model.BaseEntity;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -33,11 +35,7 @@ public class Member extends BaseEntity {
         this.snsPlatform = snsPlatform;
     }
 
-    public static Member createMember(Long snsId, String nickname, SnsPlatform snsPlatform){
-        return Member.builder()
-                .snsId(snsId)
-                .nickname(nickname)
-                .snsPlatform(snsPlatform)
-                .build();
+    public static Member createMember(Long snsId, String nickname, SnsPlatform snsPlatform) {
+        return Member.builder().snsId(snsId).nickname(nickname).snsPlatform(snsPlatform).build();
     }
 }
