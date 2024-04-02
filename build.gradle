@@ -42,6 +42,13 @@ dependencies {
 
 	//swagger
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+	// Querydsl
+	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+
+	annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+	annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
+	annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
 }
 
 tasks.named('test') {
@@ -51,6 +58,16 @@ tasks.named('test') {
 // compileJava 태스크가 실행되기 전에 spotlessApply 태스크가 먼저 실행되도록 구성
 tasks.named('compileJava') {
 	dependsOn 'spotlessApply'
+}
+
+def generated = 'src/main/generated'
+tasks.withType(JavaCompile).configureEach {
+	options.getGeneratedSourceOutputDirectory().set(file(generated))
+}
+
+
+clean {
+	delete file(generated)
 }
 
 spotless {
