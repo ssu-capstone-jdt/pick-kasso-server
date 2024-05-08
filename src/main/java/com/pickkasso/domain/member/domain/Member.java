@@ -1,8 +1,12 @@
 package com.pickkasso.domain.member.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 
 import com.pickkasso.domain.common.model.BaseEntity;
+import com.pickkasso.domain.usercurriculum.domain.UserCurriculum;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -34,6 +38,9 @@ public class Member extends BaseEntity {
         this.nickname = nickname;
         this.snsPlatform = snsPlatform;
     }
+
+    @OneToMany(mappedBy = "member")
+    private List<UserCurriculum> userCurriculums = new ArrayList<>();
 
     public static Member createMember(Long snsId, String nickname, SnsPlatform snsPlatform) {
         return Member.builder().snsId(snsId).nickname(nickname).snsPlatform(snsPlatform).build();
