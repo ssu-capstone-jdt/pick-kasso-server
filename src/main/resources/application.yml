@@ -1,4 +1,7 @@
 spring:
+  profiles:
+    include:
+      - security
   datasource:
     url: jdbc:mysql://localhost:3306/pickkasso?createDatabaseIfNotExist=true
     username: root
@@ -14,6 +17,7 @@ spring:
         hbm2ddl:
           auto: update
         default_batch_fetch_size: 1000
+        show-sql: false
   jackson:
     property-naming-strategy: SNAKE_CASE
 

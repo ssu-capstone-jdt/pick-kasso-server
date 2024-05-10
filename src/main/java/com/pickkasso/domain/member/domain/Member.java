@@ -19,23 +19,27 @@ public class Member extends BaseEntity {
     @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "sns_id")
-    private Long snsId;
-
     @Column(length = 10)
     private String nickname;
 
+    @Column
     @Enumerated(EnumType.STRING)
-    private SnsPlatform snsPlatform;
+    private MemberRole role;
+
+    @Embedded private OauthInfo oauthInfo;
 
     @Builder
-    private Member(Long snsId, String nickname, SnsPlatform snsPlatform) {
-        this.snsId = snsId;
+    private Member(String nickname, OauthInfo oauthInfo, MemberRole role) {
         this.nickname = nickname;
-        this.snsPlatform = snsPlatform;
+        this.role = role;
+        this.oauthInfo = oauthInfo;
     }
 
-    public static Member createMember(Long snsId, String nickname, SnsPlatform snsPlatform) {
-        return Member.builder().snsId(snsId).nickname(nickname).snsPlatform(snsPlatform).build();
+    public static Member createMember(OauthInfo oauthInfo, String nickname) {
+        return Member.builder()
+                .nickname(nickname)
+                .role(MemberRole.USER)
+                .oauthInfo(oauthInfo)
+                .build();
     }
 }
