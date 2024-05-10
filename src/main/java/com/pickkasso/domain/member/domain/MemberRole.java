@@ -5,9 +5,8 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum SnsPlatform {
-    NAVER("NAVER"),
-    KAKAO("KAKAO");
+public enum MemberRole {
+    USER("ROLE_USER");
 
     private final String value;
 }
