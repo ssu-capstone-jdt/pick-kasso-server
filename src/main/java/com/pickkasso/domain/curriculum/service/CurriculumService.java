@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import com.pickkasso.domain.curriculum.dto.SelectedCurriculumResponse;
 import com.pickkasso.domain.curriculum.dto.UserCurriculumListViewResponse;
+import com.pickkasso.domain.curriculumBackground.service.CurriculumBackgroundService;
 import com.pickkasso.domain.round.dto.RoundResponse;
 import com.pickkasso.domain.round.service.RoundService;
 import com.pickkasso.domain.userRound.dto.UserRoundResponse;
@@ -29,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 public class CurriculumService {
     private final CurriculumRepository curriculumRepository;
     private UserCurriculumService userCurriculumService;
+    private CurriculumBackgroundService curriculumBackgroundService;
     private RoundService roundService;
     private UserRoundService userRoundService;
 
@@ -55,7 +57,6 @@ public class CurriculumService {
         return allCurriculumListViewResponses;
     }
 
-    //예외 따로 처리
     public void downloadCurriculum(Long curriculumId, Member member) {
         Curriculum curriculum =
                 curriculumRepository
@@ -103,12 +104,19 @@ public class CurriculumService {
         curriculumRepository.deleteById(id);
     }
 
-    public CurriculumResponse findById(long id) {
-        Curriculum curriculum = curriculumRepository.findById(id)
-                .orElseThrow(
-                        () -> new IllegalArgumentException("Curriculum not found with id: " + id));
-
-        CurriculumResponse curriculumResponse = new CurriculumResponse(curriculum);
-        return curriculumResponse;
+    public void addCurriculum(String curriculumTitle, String curriculumInfo, String curriculumExplanation, int curriculumRoundCount, String curriculumDifficulty, String curriculumBackground,
+                              List<Character> times,List<String> explanations){
+        Curriculum curriculum = Curriculum.builder()
+                .curriculumTitle(curriculumTitle)
+                .curriculumInfo(curriculumInfo)
+                .curriculumExplanation(curriculumExplanation)
+                .curriculumRoundCount(curriculumRoundCount)
+                .curriculumDifficulty(curriculumDifficulty)
+                .build();
+        curriculumRepository.save(curriculum);
+        curriculumBackgroundService.setCurriculumBackground(curriculum, curriculumBackground);
+        for(int order=1; order<=times.size(); order++){
+            roundService.setRound(curriculum, order, times.get(order-1), explanations.get(order-1));
+        }
     }
 }

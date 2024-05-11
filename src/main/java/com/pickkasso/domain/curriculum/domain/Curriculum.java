@@ -3,6 +3,7 @@ package com.pickkasso.domain.curriculum.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.pickkasso.domain.curriculumBackground.domain.CurriculumBackground;
 import jakarta.persistence.*;
 
 import com.pickkasso.domain.usercurriculum.domain.UserCurriculum;
@@ -28,8 +29,6 @@ public class Curriculum {
     @Column(name = "curriculum_explanation", length = 100)
     private String curriculumExplanation;
 
-    @Column(name = "curriculum_background")
-    private String curriculumBackground;
 
     @Column(name = "curriculum_round_count")
     private int curriculumRoundCount;
@@ -40,19 +39,21 @@ public class Curriculum {
     @OneToMany(mappedBy = "curriculm")
     private List<UserCurriculum> userCurriculums = new ArrayList<>();
 
+    @OneToOne(mappedBy = "curriculm")
+    private CurriculumBackground curriculumBackgrounds;
+
     @Builder
     public Curriculum(
             String curriculumTitle,
             String curriculumInfo,
             String curriculumExplanation,
-            String curriculumBackground,
             int curriculumRoundCount,
             String curriculumDifficulty) {
         this.curriculumTitle = curriculumTitle;
         this.curriculumInfo = curriculumInfo;
         this.curriculumExplanation = curriculumExplanation;
-        this.curriculumBackground = curriculumBackground;
         this.curriculumRoundCount = curriculumRoundCount;
         this.curriculumDifficulty = curriculumDifficulty;
     }
+
 }
