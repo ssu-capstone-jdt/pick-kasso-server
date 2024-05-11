@@ -3,6 +3,7 @@ package com.pickkasso.domain.member.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.pickkasso.domain.userRound.domain.UserRound;
 import jakarta.persistence.*;
 
 import com.pickkasso.domain.common.model.BaseEntity;
@@ -41,6 +42,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member")
     private List<UserCurriculum> userCurriculums = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<UserRound> userRounds = new ArrayList<>();
 
     public static Member createMember(Long snsId, String nickname, SnsPlatform snsPlatform) {
         return Member.builder().snsId(snsId).nickname(nickname).snsPlatform(snsPlatform).build();
