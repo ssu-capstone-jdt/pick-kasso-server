@@ -5,6 +5,11 @@ import static com.pickkasso.global.common.constants.SecurityConstants.TOKEN_ROLE
 import java.security.Key;
 import java.util.Date;
 
+import com.pickkasso.domain.auth.dto.AccessTokenDto;
+import com.pickkasso.domain.auth.dto.RefreshTokenDto;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
 import org.springframework.stereotype.Component;
 
 import com.pickkasso.domain.member.domain.MemberRole;
@@ -61,5 +66,51 @@ public class JwtUtil {
 
     private Key getRefreshTokenKey() {
         return Keys.hmacShaKeyFor(jwtProperties.getRefreshTokenSecret().getBytes());
+    }
+
+    public AccessTokenDto parseAccessToken(String token) throws ExpiredJwtException {
+        try {
+            Jws<Claims> claims = getClaims(token, getAccessTokenKey());
+
+            return new AccessTokenDto(
+                    Long.parseLong(claims.getBody().getSubject()),
+                    MemberRole.valueOf(claims.getBody().get(TOKEN_ROLE_NAME, String.class)),
+                    token);
+        } catch (ExpiredJwtException e) {
+            throw e;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private Jws<Claims> getClaims(String token, Key key) {
+        return Jwts.parserBuilder()
+                .requireIssuer(jwtProperties.getIssuer())
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token);
+    }
+
+    public AccessTokenDto generateAccessTokenDto(Long memberId, MemberRole memberRole) {
+        Date issuedAt = new Date();
+        Date expiredAt =
+                new Date(issuedAt.getTime() + jwtProperties.accessTokenExpirationMilliTime());
+        String tokenValue = buildAccessToken(memberId, memberRole, issuedAt, expiredAt);
+        return new AccessTokenDto(memberId, memberRole, tokenValue);
+    }
+
+    public RefreshTokenDto parseRefreshToken(String token) throws ExpiredJwtException {
+        try {
+            Jws<Claims> claims = getClaims(token, getRefreshTokenKey());
+
+            return new RefreshTokenDto(
+                    Long.parseLong(claims.getBody().getSubject()),
+                    token,
+                    jwtProperties.getRefreshTokenExpirationTime());
+        } catch (ExpiredJwtException e) {
+            throw e;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
