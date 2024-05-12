@@ -1,7 +1,9 @@
 package com.pickkasso.domain.auth.application;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,7 +35,7 @@ public class AuthService {
         Member member = getMemberByOidcInfo(oidcUser, oauthInfo);
         googleTokenService.saveGoogleRefreshToken(member.getId(), response.getRefreshToken());
 
-        setAuthenticationToken(oidcUser);
+        setAuthenticationToken(member);
 
         return getLoginResponse(member);
     }
@@ -54,9 +56,12 @@ public class AuthService {
         return new TokenPairResponse(accessToken, refreshToken);
     }
 
-    private void setAuthenticationToken(OidcUser oidcUser) {
-        OAuth2AuthenticationToken token =
-                new OAuth2AuthenticationToken(oidcUser, oidcUser.getAuthorities(), "google");
+    private void setAuthenticationToken(Member member) {
+        UserDetails userDetails = User.withUsername(member.getId().toString())
+                        .authorities(member.getRole().toString())
+                        .password("")
+                        .build();
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(token);
     }
 
