@@ -7,20 +7,25 @@ import com.pickkasso.domain.round.dto.RoundResponse;
 import com.pickkasso.domain.userRound.domain.UserRound;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 
 public class RoundService {
     private RoundRepository roundRepository;
 
-    public RoundResponse getRound(Curriculum curriculum){
-        Round round = roundRepository.findByCurriculum(curriculum);
-        RoundResponse roundResponse = new RoundResponse(round.getOrder(), round.getTime(), round.getExplanation());
+    public List<RoundResponse> getRound(Curriculum curriculum){
+        List<Round> rounds = roundRepository.findByCurriculum(curriculum);
+        List<RoundResponse> roundResponses = rounds.stream()
+                .map(round -> new RoundResponse(round.getOrder(), round.getTime(), round.getExplanation()))
+                .collect(Collectors.toList());
 
-        return roundResponse;
+        return roundResponses;
     }
 
     public void addRound(Curriculum curriculum, UserRound userRound){
-        Round round = roundRepository.findByCurriculum(curriculum);
+        Round round = userRound.getRound();
         round.getUserRounds().add(userRound);
     }
 

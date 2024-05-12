@@ -2,8 +2,6 @@ package com.pickkasso.domain.curriculum.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 
 import com.pickkasso.domain.curriculum.dto.SelectedCurriculumResponse;
 import com.pickkasso.domain.curriculum.dto.UserCurriculumListViewResponse;
@@ -93,9 +91,9 @@ public class CurriculumService {
                         () -> new IllegalArgumentException("Curriculum not found with id: " + id));
 
         CurriculumResponse curriculumResponse = new CurriculumResponse(curriculum);
-        RoundResponse roundResponse = roundService.getRound(curriculum);
-        UserRoundResponse userRoundResponse = userRoundService.getUserRound(member,curriculum);
-        SelectedCurriculumResponse selectedCurriculumResponse = new SelectedCurriculumResponse(curriculumResponse, roundResponse, userRoundResponse);
+        List<RoundResponse> roundResponses = roundService.getRound(curriculum);
+        List<UserRoundResponse> userRoundResponses = userRoundService.getUserRound(member,curriculum);
+        SelectedCurriculumResponse selectedCurriculumResponse = new SelectedCurriculumResponse(curriculumResponse, roundResponses, userRoundResponses);
 
         return selectedCurriculumResponse;
     }
