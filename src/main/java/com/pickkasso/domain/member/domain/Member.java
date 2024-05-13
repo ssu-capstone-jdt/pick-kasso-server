@@ -28,11 +28,14 @@ public class Member extends BaseEntity {
 
     @Embedded private OauthInfo oauthInfo;
 
+    @Column private String profilelink;
+
     @Builder
     private Member(String nickname, OauthInfo oauthInfo, MemberRole role) {
         this.nickname = nickname;
         this.role = role;
         this.oauthInfo = oauthInfo;
+        this.profilelink = null;
     }
 
     public static Member createMember(OauthInfo oauthInfo, String nickname) {
