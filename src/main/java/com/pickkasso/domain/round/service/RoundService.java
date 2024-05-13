@@ -46,6 +46,6 @@ public class RoundService {
                         .time(time)
                         .explanation(explanation)
                         .build();
-        return round;
+        return roundRepository.save(round);
     }
 }

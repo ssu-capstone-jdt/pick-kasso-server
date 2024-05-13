@@ -24,7 +24,6 @@ public class CurriculumBackgroundService {
                         .curriculum(curriculum)
                         .backgrooundLink(backgroundLink)
                         .build();
-        curriculumBackgroundRepository.save(curriculumBackground);
-        return curriculumBackground;
+        return curriculumBackgroundRepository.save(curriculumBackground);
     }
 }

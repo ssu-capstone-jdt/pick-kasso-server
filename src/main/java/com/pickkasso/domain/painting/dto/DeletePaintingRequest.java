@@ -1,14 +1,14 @@
-package com.pickkasso.domain.painting.dto;
+ package com.pickkasso.domain.painting.dto;
 
-import com.pickkasso.domain.painting.domain.Painting;
+ import com.pickkasso.domain.painting.domain.Painting;
 
-import lombok.Getter;
+ import lombok.Getter;
 
-@Getter
-public class DeletePaintingRequest {
+ @Getter
+ public class DeletePaintingRequest {
     private final Long id;
 
     public DeletePaintingRequest(Painting painting) {
         this.id = painting.getId();
     }
-}
+ }

@@ -21,8 +21,9 @@ public class UserRoundService {
     private final UserRoundRepository userRoundRepository;
     private final RoundService roundService;
 
-    public void setUserRound(Member member, Round round) {
+    public UserRound setUserRound(Member member, Round round) {
         UserRound userRound = new UserRound(member, round);
+        return userRoundRepository.save(userRound);
     }
 
     public List<UserRoundResponse> getUserRound(Member member, Curriculum curriculum) {
