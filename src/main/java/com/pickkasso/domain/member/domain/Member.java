@@ -49,14 +49,11 @@ public class Member extends BaseEntity {
                 .role(MemberRole.USER)
                 .oauthInfo(oauthInfo)
                 .build();
+    }
       
     @OneToMany(mappedBy = "member")
     private List<UserCurriculum> userCurriculums = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<UserRound> userRounds = new ArrayList<>();
-
-    public static Member createMember(Long snsId, String nickname, SnsPlatform snsPlatform) {
-        return Member.builder().snsId(snsId).nickname(nickname).snsPlatform(snsPlatform).build();
-    }
 }
