@@ -26,14 +26,14 @@ public class UserRoundService {
     }
 
     public List<UserRoundResponse> getUserRound(Member member, Curriculum curriculum) {
-        List<UserRound> userRounds =
-                userRoundRepository.findByMemberandCurriculum(member, curriculum);
         List<UserRoundResponse> userRoundResponses = new ArrayList<>();
-        for (UserRound userRound : userRounds) {
-            roundService.addRound(curriculum, userRound);
-            UserRoundResponse userRoundResponse = new UserRoundResponse();
-            userRoundResponse.setUserRoundResponse(userRound.isProgressState());
-            userRoundResponses.add(userRoundResponse);
+        for (Round round : curriculum.getRounds()) {
+            List<UserRound> userRounds = userRoundRepository.findByMemberAndRound(member, round);
+            for (UserRound userRound : userRounds) {
+                UserRoundResponse userRoundResponse = new UserRoundResponse();
+                userRoundResponse.setUserRoundResponse(userRound.isProgressState());
+                userRoundResponses.add(userRoundResponse);
+            }
         }
         return userRoundResponses;
     }

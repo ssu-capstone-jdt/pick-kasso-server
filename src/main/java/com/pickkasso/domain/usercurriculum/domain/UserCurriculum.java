@@ -5,12 +5,14 @@ import jakarta.persistence.*;
 import com.pickkasso.domain.curriculum.domain.Curriculum;
 import com.pickkasso.domain.member.domain.Member;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 public class UserCurriculum {
 
     @Id

@@ -25,7 +25,7 @@ public class RoundService {
                         .map(
                                 round ->
                                         new RoundResponse(
-                                                round.getOrder(),
+                                                round.getRoundSeq(),
                                                 round.getTime(),
                                                 round.getExplanation()))
                         .collect(Collectors.toList());
