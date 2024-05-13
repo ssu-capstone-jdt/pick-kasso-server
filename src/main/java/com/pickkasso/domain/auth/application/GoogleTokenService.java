@@ -27,11 +27,11 @@ public class GoogleTokenService {
 
     public GoogleTokenResponse getGoogleTokenResponse(String authcode) {
         return googleApiClient.getToken(
-                        authcode,
-                        properties.getId(),
-                        properties.getSecret(),
-                        properties.getRedirectUri(),
-                        AUTHORIZATION_CODE);
+                authcode,
+                properties.getId(),
+                properties.getSecret(),
+                properties.getRedirectUri(),
+                AUTHORIZATION_CODE);
     }
 
     public void saveGoogleRefreshToken(Long memberId, String newToken) {

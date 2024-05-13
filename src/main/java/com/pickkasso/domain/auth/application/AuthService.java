@@ -42,8 +42,8 @@ public class AuthService {
 
     private Member getMemberByOidcInfo(OidcUser oidcUser, OauthInfo oauthInfo) {
         return memberRepository
-                        .findByOauthInfo(oauthInfo)
-                        .orElseGet(() -> saveMember(oauthInfo, getUserSocialName(oidcUser)));
+                .findByOauthInfo(oauthInfo)
+                .orElseGet(() -> saveMember(oauthInfo, getUserSocialName(oidcUser)));
     }
 
     private String getUserSocialName(OidcUser oidcUser) {
@@ -57,11 +57,14 @@ public class AuthService {
     }
 
     private void setAuthenticationToken(Member member) {
-        UserDetails userDetails = User.withUsername(member.getId().toString())
+        UserDetails userDetails =
+                User.withUsername(member.getId().toString())
                         .authorities(member.getRole().toString())
                         .password("")
                         .build();
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(token);
     }
 

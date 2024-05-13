@@ -5,16 +5,16 @@ import static com.pickkasso.global.common.constants.SecurityConstants.TOKEN_ROLE
 import java.security.Key;
 import java.util.Date;
 
-import com.pickkasso.domain.auth.dto.AccessTokenDto;
-import com.pickkasso.domain.auth.dto.RefreshTokenDto;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jws;
 import org.springframework.stereotype.Component;
 
+import com.pickkasso.domain.auth.dto.AccessTokenDto;
+import com.pickkasso.domain.auth.dto.RefreshTokenDto;
 import com.pickkasso.domain.member.domain.MemberRole;
 import com.pickkasso.infra.config.jwt.JwtProperties;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;

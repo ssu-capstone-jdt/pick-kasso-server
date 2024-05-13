@@ -1,6 +1,7 @@
 package com.pickkasso.domain.auth.dto;
 
 import com.pickkasso.domain.member.domain.MemberRole;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

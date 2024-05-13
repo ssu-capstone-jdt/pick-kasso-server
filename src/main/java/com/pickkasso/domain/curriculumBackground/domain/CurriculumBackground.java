@@ -20,7 +20,7 @@ public class CurriculumBackground {
     private Long id;
 
     @OneToOne
-    @MapsId("curriculum_id")
+    @MapsId
     @JoinColumn(name = "curriculum_id")
     private Curriculum curriculum;
 

@@ -42,7 +42,7 @@ public class Member extends BaseEntity {
         this.oauthInfo = oauthInfo;
         this.profilelink = null;
     }
-    
+
     public static Member createMember(OauthInfo oauthInfo, String nickname) {
         return Member.builder()
                 .nickname(nickname)
@@ -50,7 +50,7 @@ public class Member extends BaseEntity {
                 .oauthInfo(oauthInfo)
                 .build();
     }
-      
+
     @OneToMany(mappedBy = "member")
     private List<UserCurriculum> userCurriculums = new ArrayList<>();
 

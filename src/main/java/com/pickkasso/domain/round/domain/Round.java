@@ -23,7 +23,7 @@ public class Round {
     private Long id;
 
     @ManyToOne
-    @MapsId("curriculum_id")
+    @MapsId
     @JoinColumn(name = "curriculum_id")
     private Curriculum curriculum;
 

@@ -4,8 +4,6 @@ import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 
-import com.pickkasso.global.error.exception.CustomException;
-import com.pickkasso.global.error.exception.ErrorCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
@@ -17,6 +15,8 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.stereotype.Component;
 
 import com.pickkasso.global.common.constants.SecurityConstants;
+import com.pickkasso.global.error.exception.CustomException;
+import com.pickkasso.global.error.exception.ErrorCode;
 import com.pickkasso.infra.config.oauth.GoogleProperties;
 
 import lombok.RequiredArgsConstructor;

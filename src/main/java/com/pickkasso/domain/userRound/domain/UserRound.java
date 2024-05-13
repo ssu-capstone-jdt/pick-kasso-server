@@ -16,12 +16,12 @@ public class UserRound {
     @EmbeddedId private UserRoundId id;
 
     @ManyToOne
-    @MapsId("user_id")
+    @MapsId
     @JoinColumn(name = "user_id")
     private Member member;
 
     @ManyToOne
-    @MapsId("round_id")
+    @MapsId
     @JoinColumn(name = "round_id")
     private Round round;
 

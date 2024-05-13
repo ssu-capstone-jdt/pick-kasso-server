@@ -37,14 +37,11 @@ public class Curriculum {
     @Column(name = "curriculum_difficulty", length = 10)
     private String curriculumDifficulty;
 
-    @OneToMany(mappedBy = "curriculm")
-    private List<UserCurriculum> userCurriculums = new ArrayList<>();
+    @OneToMany private List<UserCurriculum> userCurriculums = new ArrayList<>();
 
-    @OneToMany(mappedBy = "curriculum")
-    private List<Round> rounds = new ArrayList<>();
+    @OneToMany private List<Round> rounds = new ArrayList<>();
 
-    @OneToOne(mappedBy = "curriculm")
-    private CurriculumBackground curriculumBackgrounds;
+    @OneToOne private CurriculumBackground curriculumBackgrounds;
 
     @Builder
     public Curriculum(
