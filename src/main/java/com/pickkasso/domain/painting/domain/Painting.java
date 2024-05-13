@@ -1,9 +1,8 @@
 package com.pickkasso.domain.painting.domain;
 
-
 import jakarta.persistence.*;
-import lombok.*;
 
+import lombok.*;
 
 @Entity
 @Getter
@@ -26,17 +25,12 @@ public class Painting {
     @Column(name = "painting_state")
     private boolean paintingState;
 
-
-
-
-
     @Builder
-    public Painting(String userId, String paintingLink, String paintingTitle, boolean paintingState){
+    public Painting(
+            String userId, String paintingLink, String paintingTitle, boolean paintingState) {
         this.userId = userId;
         this.paintingLink = paintingLink;
         this.paintingTitle = paintingTitle;
         this.paintingState = paintingState;
     }
-
-
 }

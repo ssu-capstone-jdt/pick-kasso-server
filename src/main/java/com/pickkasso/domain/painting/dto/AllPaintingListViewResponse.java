@@ -1,4 +1,3 @@
 package com.pickkasso.domain.painting.dto;
 
-public class AllPaintingListViewResponse {
-}
+public class AllPaintingListViewResponse {}

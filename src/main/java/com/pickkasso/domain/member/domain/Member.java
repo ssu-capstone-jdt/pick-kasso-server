@@ -1,8 +1,13 @@
 package com.pickkasso.domain.member.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 
 import com.pickkasso.domain.common.model.BaseEntity;
+import com.pickkasso.domain.userRound.domain.UserRound;
+import com.pickkasso.domain.usercurriculum.domain.UserCurriculum;
 
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -37,12 +42,21 @@ public class Member extends BaseEntity {
         this.oauthInfo = oauthInfo;
         this.profilelink = null;
     }
-
+    
     public static Member createMember(OauthInfo oauthInfo, String nickname) {
         return Member.builder()
                 .nickname(nickname)
                 .role(MemberRole.USER)
                 .oauthInfo(oauthInfo)
                 .build();
+      
+    @OneToMany(mappedBy = "member")
+    private List<UserCurriculum> userCurriculums = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member")
+    private List<UserRound> userRounds = new ArrayList<>();
+
+    public static Member createMember(Long snsId, String nickname, SnsPlatform snsPlatform) {
+        return Member.builder().snsId(snsId).nickname(nickname).snsPlatform(snsPlatform).build();
     }
 }
