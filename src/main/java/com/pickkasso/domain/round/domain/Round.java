@@ -1,17 +1,17 @@
 package com.pickkasso.domain.round.domain;
 
-import com.pickkasso.domain.userRound.domain.UserRound;
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 
 import com.pickkasso.domain.curriculum.domain.Curriculum;
+import com.pickkasso.domain.userRound.domain.UserRound;
 
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Entity
@@ -21,6 +21,7 @@ public class Round {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "round_id")
     private Long id;
+
     @ManyToOne
     @MapsId("curriculum_id")
     @JoinColumn(name = "curriculum_id")
@@ -30,7 +31,7 @@ public class Round {
     private int order;
 
     @Column(name = "time", length = 8)
-    private char time;
+    private String time;
 
     @Column(name = "explanation", length = 15)
     private String explanation;
@@ -39,7 +40,7 @@ public class Round {
     private List<UserRound> userRounds = new ArrayList<>();
 
     @Builder
-    public Round(Curriculum curriculum, int order, char time, String explanation){
+    public Round(Curriculum curriculum, int order, String time, String explanation) {
         this.curriculum = curriculum;
         this.order = order;
         this.time = time;

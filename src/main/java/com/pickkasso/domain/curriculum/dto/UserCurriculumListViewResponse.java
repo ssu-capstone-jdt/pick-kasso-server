@@ -9,7 +9,7 @@ public class UserCurriculumListViewResponse {
     private CurriculumResponse curriculumResponse;
     private StateType state;
 
-    public UserCurriculumListViewResponse(CurriculumResponse curriculumResponse, StateType state){
+    public UserCurriculumListViewResponse(CurriculumResponse curriculumResponse, StateType state) {
         this.curriculumResponse = curriculumResponse;
         this.state = state;
     }

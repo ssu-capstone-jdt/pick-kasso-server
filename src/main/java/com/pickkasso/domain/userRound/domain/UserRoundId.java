@@ -1,8 +1,8 @@
 package com.pickkasso.domain.userRound.domain;
 
-import jakarta.persistence.Embeddable;
-
 import java.io.Serializable;
+
+import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class UserRoundId implements Serializable {

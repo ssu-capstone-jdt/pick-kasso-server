@@ -12,22 +12,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class UserCurriculum {
-//    @EmbeddedId private UserCurriculumId id;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "userCurriculum_id")
     private Long userCurriculum;
-
-//    @ManyToOne
-//    @MapsId("user_id")
-//    @JoinColumn(name = "user_id")
-//    private Member member;
-//
-//    @ManyToOne
-//    @MapsId("curriculum_id")
-//    @JoinColumn(name = "curriculum_id")
-//    private Curriculum curriculum;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -40,8 +29,9 @@ public class UserCurriculum {
     @Enumerated(EnumType.STRING)
     private StateType state;
 
-    public UserCurriculum(Member member, Curriculum curriculum){
+    public UserCurriculum(Member member, Curriculum curriculum) {
         this.member = member;
         this.curriculum = curriculum;
+        this.state = StateType.InProgress;
     }
 }

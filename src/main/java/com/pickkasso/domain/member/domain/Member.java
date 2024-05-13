@@ -3,10 +3,10 @@ package com.pickkasso.domain.member.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.pickkasso.domain.userRound.domain.UserRound;
 import jakarta.persistence.*;
 
 import com.pickkasso.domain.common.model.BaseEntity;
+import com.pickkasso.domain.userRound.domain.UserRound;
 import com.pickkasso.domain.usercurriculum.domain.UserCurriculum;
 
 import lombok.AccessLevel;

@@ -1,9 +1,11 @@
 package com.pickkasso.domain.curriculumBackground.domain;
 
+import jakarta.persistence.*;
 
 import com.pickkasso.domain.curriculum.domain.Curriculum;
-import jakarta.persistence.*;
+
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -16,11 +18,11 @@ public class CurriculumBackground {
     @JoinColumn(name = "curriculum_id")
     private Curriculum curriculum;
 
-
     @Column(name = "background_link", length = 10)
     private String backgroundLink;
 
-    public CurriculumBackground(Curriculum curriculum, String backgrooundLink){
+    @Builder
+    public CurriculumBackground(Curriculum curriculum, String backgrooundLink) {
         this.curriculum = curriculum;
         this.backgroundLink = backgrooundLink;
     }
