@@ -13,6 +13,12 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CurriculumBackground {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "background_id")
+    private Long id;
+
     @OneToOne
     @MapsId("curriculum_id")
     @JoinColumn(name = "curriculum_id")

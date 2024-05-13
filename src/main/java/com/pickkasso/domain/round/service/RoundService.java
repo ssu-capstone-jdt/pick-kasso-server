@@ -3,7 +3,6 @@ package com.pickkasso.domain.round.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.pickkasso.domain.curriculum.domain.Curriculum;
@@ -11,6 +10,8 @@ import com.pickkasso.domain.round.dao.RoundRepository;
 import com.pickkasso.domain.round.domain.Round;
 import com.pickkasso.domain.round.dto.RoundResponse;
 import com.pickkasso.domain.userRound.domain.UserRound;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

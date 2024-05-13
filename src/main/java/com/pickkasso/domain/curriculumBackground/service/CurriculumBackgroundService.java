@@ -1,11 +1,12 @@
 package com.pickkasso.domain.curriculumBackground.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.pickkasso.domain.curriculum.domain.Curriculum;
 import com.pickkasso.domain.curriculumBackground.dao.CurriculumBackgroundRepository;
 import com.pickkasso.domain.curriculumBackground.domain.CurriculumBackground;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor

@@ -13,7 +13,6 @@ public class CurriculumResponse {
     private int curriculumRoundCount;
     private String curriculumDifficulty;
 
-
     public CurriculumResponse(Curriculum curriculum) {
         this.curriculumTitle = curriculum.getCurriculumTitle();
         this.curriculumInfo = curriculum.getCurriculumInfo();

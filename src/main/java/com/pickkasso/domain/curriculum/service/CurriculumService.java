@@ -108,7 +108,7 @@ public class CurriculumService {
         curriculumRepository.deleteById(id);
     }
 
-    public void addCurriculum(
+    public Curriculum addCurriculum(
             String curriculumTitle,
             String curriculumInfo,
             String curriculumExplanation,
@@ -117,6 +117,7 @@ public class CurriculumService {
             String curriculumBackground,
             List<String> times,
             List<String> explanations) {
+
         Curriculum curriculum =
                 Curriculum.builder()
                         .curriculumTitle(curriculumTitle)
@@ -141,6 +142,6 @@ public class CurriculumService {
         curriculum.setBackground(background);
         curriculum.setRounds(rounds);
 
-        curriculumRepository.save(curriculum);
+        return curriculumRepository.save(curriculum);
     }
 }
