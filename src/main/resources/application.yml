@@ -3,9 +3,9 @@ spring:
     include:
       - security
   datasource:
-    url: jdbc:mysql://localhost:3306/pickkasso?createDatabaseIfNotExist=true
-    username: root
-    password: 1234
+    url: jdbc:mysql://jdt-database.creiqg0wktrv.us-east-2.rds.amazonaws.com:3306/pickkasso?createDatabaseIfNotExist=true
+    username: admin
+    password: JDTDATABASE1
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     properties:
