@@ -13,15 +13,15 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserRound {
-    @EmbeddedId private UserRoundId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne
-    @MapsId("user_id")
     @JoinColumn(name = "user_id")
     private Member member;
 
     @ManyToOne
-    @MapsId("round_id")
     @JoinColumn(name = "round_id")
     private Round round;
 

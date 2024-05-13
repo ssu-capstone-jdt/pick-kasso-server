@@ -23,12 +23,11 @@ public class Round {
     private Long id;
 
     @ManyToOne
-    @MapsId("curriculum_id")
     @JoinColumn(name = "curriculum_id")
     private Curriculum curriculum;
 
-    @Column(name = "order")
-    private int order;
+    @Column(name = "round_seq")
+    private int roundSeq;
 
     @Column(name = "time", length = 8)
     private String time;
@@ -42,7 +41,7 @@ public class Round {
     @Builder
     public Round(Curriculum curriculum, int order, String time, String explanation) {
         this.curriculum = curriculum;
-        this.order = order;
+        this.roundSeq = order;
         this.time = time;
         this.explanation = explanation;
     }

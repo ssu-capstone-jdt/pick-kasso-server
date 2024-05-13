@@ -1,16 +1,14 @@
 package com.pickkasso.global.security;
 
-import com.pickkasso.domain.auth.application.JwtTokenService;
-import com.pickkasso.domain.auth.dto.AccessTokenDto;
-import com.pickkasso.domain.auth.dto.RefreshTokenDto;
-import com.pickkasso.domain.member.domain.MemberRole;
-import com.pickkasso.global.util.CookieUtil;
+import static com.pickkasso.global.common.constants.SecurityConstants.*;
+
+import java.io.IOException;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,9 +19,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.WebUtils;
 
-import java.io.IOException;
+import com.pickkasso.domain.auth.application.JwtTokenService;
+import com.pickkasso.domain.auth.dto.AccessTokenDto;
+import com.pickkasso.domain.auth.dto.RefreshTokenDto;
+import com.pickkasso.domain.member.domain.MemberRole;
+import com.pickkasso.global.util.CookieUtil;
 
-import static com.pickkasso.global.common.constants.SecurityConstants.*;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Component
@@ -44,10 +46,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        AccessTokenDto accessTokenDto = jwtTokenService.retrieveOrReissueAccessToken(accessTokenValue);
+        AccessTokenDto accessTokenDto =
+                jwtTokenService.retrieveOrReissueAccessToken(accessTokenValue);
 
         if (accessTokenDto != null) {
-            setAuthenticationToContext(accessTokenDto.getMemberId(), accessTokenDto.getMemberRole());
+            setAuthenticationToContext(
+                    accessTokenDto.getMemberId(), accessTokenDto.getMemberRole());
             filterChain.doFilter(request, response);
             return;
         }
@@ -57,12 +61,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         // AT가 만료되었고, RT가 유효하면 AT, RT 재발급
         if (refreshTokenDto != null) {
-            String accessToken = jwtTokenService.createAccessToken(refreshTokenDto.getMemberId(), MemberRole.USER);
+            String accessToken =
+                    jwtTokenService.createAccessToken(
+                            refreshTokenDto.getMemberId(), MemberRole.USER);
             String refreshToken = jwtTokenService.createRefreshToken(refreshTokenDto.getMemberId());
 
-            HttpHeaders httpHeaders =
-                    cookieUtil.generateTokenCookies(
-                            accessToken, refreshToken);
+            HttpHeaders httpHeaders = cookieUtil.generateTokenCookies(accessToken, refreshToken);
             response.addHeader(
                     HttpHeaders.SET_COOKIE, httpHeaders.getFirst(ACCESS_TOKEN_COOKIE_NAME));
             response.addHeader(
@@ -71,18 +75,20 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             setAuthenticationToContext(refreshTokenDto.getMemberId(), MemberRole.USER);
             filterChain.doFilter(request, response);
             return;
-
         }
         // AT, RT가 모두 만료된 경우 실패
         filterChain.doFilter(request, response);
     }
 
     private void setAuthenticationToContext(Long memberId, MemberRole memberRole) {
-        UserDetails userDetails = User.withUsername(memberId.toString())
-                .authorities(memberRole.toString())
-                .password("")
-                .build();
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        UserDetails userDetails =
+                User.withUsername(memberId.toString())
+                        .authorities(memberRole.toString())
+                        .password("")
+                        .build();
+        UsernamePasswordAuthenticationToken token =
+                new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(token);
     }
 
@@ -101,5 +107,4 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
         return null;
     }
-
 }
