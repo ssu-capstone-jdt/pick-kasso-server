@@ -20,8 +20,8 @@ public class UserCurriculumService {
         return userCurriculumRepository.findByMember(member);
     }
 
-    public void save(UserCurriculum userCurriculum) {
-        userCurriculumRepository.save(userCurriculum);
+    public UserCurriculum save(UserCurriculum userCurriculum) {
+        return userCurriculumRepository.save(userCurriculum);
     }
 
     public UserCurriculum getUserCurriculum(Member member, Curriculum curriculum) {

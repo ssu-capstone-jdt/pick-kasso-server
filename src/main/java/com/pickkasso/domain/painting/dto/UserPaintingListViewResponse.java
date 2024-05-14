@@ -1,14 +1,14 @@
-package com.pickkasso.domain.painting.dto;
+ package com.pickkasso.domain.painting.dto;
 
-import java.time.LocalDateTime;
+ import java.time.LocalDateTime;
 
-import com.pickkasso.domain.curriculum.domain.Curriculum;
-import com.pickkasso.domain.painting.domain.Painting;
+ import com.pickkasso.domain.curriculum.domain.Curriculum;
+ import com.pickkasso.domain.painting.domain.Painting;
 
-import lombok.Getter;
+ import lombok.Getter;
 
-@Getter
-public class UserPaintingListViewResponse {
+ @Getter
+ public class UserPaintingListViewResponse {
     private String paintingLink;
     private String paintingTitle;
     private LocalDateTime createdAt;
@@ -22,4 +22,4 @@ public class UserPaintingListViewResponse {
         this.curriculumTitle = curriculum.getCurriculumTitle();
         this.curriculumInfo = curriculum.getCurriculumInfo();
     }
-}
+ }

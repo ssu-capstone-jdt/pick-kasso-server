@@ -1,15 +1,15 @@
-package com.pickkasso.domain.painting.dao;
+ package com.pickkasso.domain.painting.dao;
 
-import java.util.List;
+ import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+ import org.springframework.data.jpa.repository.JpaRepository;
+ import org.springframework.stereotype.Repository;
 
-import com.pickkasso.domain.painting.domain.Painting;
+ import com.pickkasso.domain.painting.domain.Painting;
 
-@Repository
-public interface PaintingRepository extends JpaRepository<Painting, Long> {
+ @Repository
+ public interface PaintingRepository extends JpaRepository<Painting, Long> {
     List<Painting> findByUserId(Long userId);
 
     List<Painting> findByState(boolean paintingState);
-}
+ }

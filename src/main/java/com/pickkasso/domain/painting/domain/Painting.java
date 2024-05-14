@@ -1,13 +1,13 @@
-package com.pickkasso.domain.painting.domain;
+ package com.pickkasso.domain.painting.domain;
 
-import jakarta.persistence.*;
+ import jakarta.persistence.*;
 
-import lombok.*;
+ import lombok.*;
 
-@Entity
-@Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Painting {
+ @Entity
+ @Getter
+ @NoArgsConstructor(access = AccessLevel.PROTECTED)
+ public class Painting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", updatable = false)
@@ -33,4 +33,4 @@ public class Painting {
         this.paintingTitle = paintingTitle;
         this.paintingState = paintingState;
     }
-}
+ }

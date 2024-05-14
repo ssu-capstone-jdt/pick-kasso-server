@@ -1,17 +1,17 @@
-package com.pickkasso.domain.painting.dto;
+ package com.pickkasso.domain.painting.dto;
 
-import com.pickkasso.domain.painting.domain.Painting;
+ import com.pickkasso.domain.painting.domain.Painting;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+ import lombok.AllArgsConstructor;
+ import lombok.Getter;
+ import lombok.NoArgsConstructor;
+ import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-public class AddPaintingRequest {
+ @NoArgsConstructor
+ @AllArgsConstructor
+ @Getter
+ @Setter
+ public class AddPaintingRequest {
     private String paintingLink;
     private String paintingTitle;
     private boolean paintingState;
@@ -24,4 +24,4 @@ public class AddPaintingRequest {
                 .build();
     }
     // 사진 업로드
-}
+ }
