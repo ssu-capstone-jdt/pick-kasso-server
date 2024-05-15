@@ -55,6 +55,7 @@ public class WebSecurityConfig {
         config.addAllowedMethod("*");
         config.addAllowedOrigin("http://localhost:3000");
         config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:3000");
         config.setAllowedHeaders(Collections.singletonList("*"));
         config.setMaxAge(3600L);
 
