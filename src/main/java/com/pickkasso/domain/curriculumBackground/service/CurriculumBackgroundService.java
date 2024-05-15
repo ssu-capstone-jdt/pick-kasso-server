@@ -17,14 +17,9 @@ public class CurriculumBackgroundService {
         return curriculumBackgroundRepository.findByCurriculum(curriculum);
     }
 
-    public CurriculumBackground setCurriculumBackground(
-            Curriculum curriculum, String backgroundLink) {
+    public CurriculumBackground setCurriculumBackground(Curriculum curr, String link) {
         CurriculumBackground curriculumBackground =
-                CurriculumBackground.builder()
-                        .curriculum(curriculum)
-                        .backgrooundLink(backgroundLink)
-                        .build();
-        curriculumBackgroundRepository.save(curriculumBackground);
-        return curriculumBackground;
+                CurriculumBackground.createCurrBackground(curr, link);
+        return curriculumBackgroundRepository.save(curriculumBackground);
     }
 }

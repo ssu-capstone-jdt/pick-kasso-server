@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.pickkasso.domain.curriculum.domain.Curriculum;
 import com.pickkasso.domain.round.dao.RoundRepository;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class RoundService {
     private final RoundRepository roundRepository;
 
@@ -38,7 +40,7 @@ public class RoundService {
         round.getUserRounds().add(userRound);
     }
 
-    public Round setRound(Curriculum curriculum, int order, String time, String explanation) {
+    public Round setRound(Curriculum curriculum, int order, int time, String explanation) {
         Round round =
                 Round.builder()
                         .curriculum(curriculum)
@@ -46,6 +48,6 @@ public class RoundService {
                         .time(time)
                         .explanation(explanation)
                         .build();
-        return round;
+        return roundRepository.save(round);
     }
 }

@@ -60,6 +60,17 @@ public class Curriculum {
         this.curriculumDifficulty = curriculumDifficulty;
     }
 
+    public static Curriculum createCurriculum(
+            String title, String info, String ex, int cnt, String diff) {
+        return Curriculum.builder()
+                .curriculumTitle(title)
+                .curriculumInfo(info)
+                .curriculumExplanation(ex)
+                .curriculumRoundCount(cnt)
+                .curriculumDifficulty(diff)
+                .build();
+    }
+
     public void setBackground(CurriculumBackground curriculumBackgrounds) {
         this.curriculumBackgrounds = curriculumBackgrounds;
     }

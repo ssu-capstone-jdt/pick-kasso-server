@@ -32,4 +32,12 @@ public class CurriculumBackground {
         this.curriculum = curriculum;
         this.backgroundLink = backgrooundLink;
     }
+
+    public static CurriculumBackground createCurrBackground(
+            Curriculum curr, String currBackground) {
+        return CurriculumBackground.builder()
+                .curriculum(curr)
+                .backgrooundLink(currBackground)
+                .build();
+    }
 }

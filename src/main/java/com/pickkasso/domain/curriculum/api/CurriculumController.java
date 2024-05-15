@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import com.pickkasso.domain.curriculum.dto.AllCurriculumListViewResponse;
 import com.pickkasso.domain.curriculum.dto.SelectedCurriculumResponse;
 import com.pickkasso.domain.curriculum.dto.UserCurriculumListViewResponse;
+import com.pickkasso.domain.curriculum.dto.request.AddCurriculumRequest;
+import com.pickkasso.domain.curriculum.dto.response.AddCurriculumResponse;
 import com.pickkasso.domain.curriculum.service.CurriculumService;
 import com.pickkasso.domain.member.domain.Member;
 import com.pickkasso.global.util.MemberUtil;
@@ -48,5 +50,10 @@ public class CurriculumController {
     @DeleteMapping("/{id}")
     public void deleteCurriculum(@PathVariable long id) {
         curriculumService.delete(id);
+    }
+
+    @PostMapping
+    public AddCurriculumResponse addCurriculum(@RequestBody AddCurriculumRequest request) {
+        return curriculumService.addCurriculum(request);
     }
 }
