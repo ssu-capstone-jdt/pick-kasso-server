@@ -18,6 +18,8 @@ public enum ErrorCode {
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "해당 회원을 찾을 수 없습니다."),
 
     CURR_NOT_FOUND(HttpStatus.NOT_FOUND, "커리큘럼 정보를 찾지 못했습니다."),
+
+    USER_CURR_NOT_FOUND(HttpStatus.NOT_FOUND, "유저에게 해당 커리큘럼이 없습니다."),
     ;
 
     private final HttpStatus status;

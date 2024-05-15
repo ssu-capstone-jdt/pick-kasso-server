@@ -10,4 +10,6 @@ import com.pickkasso.domain.userRound.domain.UserRound;
 
 public interface UserRoundRepository extends JpaRepository<UserRound, Long> {
     List<UserRound> findByMemberAndRound(Member member, Round round);
+
+    List<UserRound> findByMemberAndRoundIn(Member member, List<Round> rounds);
 }
