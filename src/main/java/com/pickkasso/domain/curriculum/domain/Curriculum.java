@@ -40,7 +40,7 @@ public class Curriculum {
     @OneToMany(mappedBy = "curriculum", cascade = CascadeType.ALL)
     private List<UserCurriculum> userCurriculums = new ArrayList<>();
 
-    @OneToMany(mappedBy = "curriculum")
+    @OneToMany(mappedBy = "curriculum", cascade = CascadeType.ALL)
     private List<Round> rounds = new ArrayList<>();
 
     @OneToOne(mappedBy = "curriculum")

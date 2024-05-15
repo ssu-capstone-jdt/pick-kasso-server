@@ -24,6 +24,7 @@ import com.pickkasso.domain.userRound.dto.UserRoundResponse;
 import com.pickkasso.domain.userRound.service.UserRoundService;
 import com.pickkasso.domain.usercurriculum.domain.StateType;
 import com.pickkasso.domain.usercurriculum.domain.UserCurriculum;
+import com.pickkasso.domain.usercurriculum.dto.response.DeleteUserCurriculumResponse;
 import com.pickkasso.domain.usercurriculum.dto.response.DownloadCurriculumResponse;
 import com.pickkasso.domain.usercurriculum.service.UserCurriculumService;
 import com.pickkasso.global.error.exception.CustomException;
@@ -64,10 +65,7 @@ public class CurriculumService {
     }
 
     public DownloadCurriculumResponse downloadCurriculum(Long currId) {
-        Curriculum curr =
-                curriculumRepository
-                        .findById(currId)
-                        .orElseThrow(() -> new CustomException(ErrorCode.CURR_NOT_FOUND));
+        Curriculum curr = getCurriculum(currId);
         UserCurriculum userCurriculum = userCurriculumService.saveUserCurriculum(curr);
         return new DownloadCurriculumResponse(
                 userCurriculum.getMember().getNickname(), curr.getCurriculumTitle());
@@ -107,8 +105,15 @@ public class CurriculumService {
         return selectedCurriculumResponse;
     }
 
-    public void delete(long id) {
-        curriculumRepository.deleteById(id);
+    public DeleteUserCurriculumResponse deleteUserCurriculum(Long currId) {
+        Curriculum curriculum = getCurriculum(currId);
+        return userCurriculumService.deleteUserCurriculum(curriculum);
+    }
+
+    private Curriculum getCurriculum(Long currId) {
+        return curriculumRepository
+                .findById(currId)
+                .orElseThrow(() -> new CustomException(ErrorCode.CURR_NOT_FOUND));
     }
 
     public AddCurriculumResponse addCurriculum(AddCurriculumRequest request) {

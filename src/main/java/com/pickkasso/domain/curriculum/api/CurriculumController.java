@@ -11,6 +11,7 @@ import com.pickkasso.domain.curriculum.dto.response.SelectedCurriculumResponse;
 import com.pickkasso.domain.curriculum.dto.response.UserCurriculumListViewResponse;
 import com.pickkasso.domain.curriculum.service.CurriculumService;
 import com.pickkasso.domain.member.domain.Member;
+import com.pickkasso.domain.usercurriculum.dto.response.DeleteUserCurriculumResponse;
 import com.pickkasso.domain.usercurriculum.dto.response.DownloadCurriculumResponse;
 import com.pickkasso.global.util.MemberUtil;
 
@@ -47,9 +48,9 @@ public class CurriculumController {
         return curriculumService.downloadCurriculum(currId);
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteCurriculum(@PathVariable long id) {
-        curriculumService.delete(id);
+    @DeleteMapping("/{currId}")
+    public DeleteUserCurriculumResponse deleteUserCurriculum(@PathVariable Long currId) {
+        return curriculumService.deleteUserCurriculum(currId);
     }
 
     @PostMapping
