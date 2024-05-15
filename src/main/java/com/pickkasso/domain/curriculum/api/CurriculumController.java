@@ -11,6 +11,7 @@ import com.pickkasso.domain.curriculum.dto.response.SelectedCurriculumResponse;
 import com.pickkasso.domain.curriculum.dto.response.UserCurriculumListViewResponse;
 import com.pickkasso.domain.curriculum.service.CurriculumService;
 import com.pickkasso.domain.member.domain.Member;
+import com.pickkasso.domain.usercurriculum.dto.response.DownloadCurriculumResponse;
 import com.pickkasso.global.util.MemberUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -41,10 +42,9 @@ public class CurriculumController {
         return curriculumService.getSelectedCurriculum(id, member);
     }
 
-    @PostMapping("/{id}")
-    public void downloadCurriculum(@PathVariable Long curriculumId) {
-        final Member member = memberUtil.getCurrentMember();
-        curriculumService.downloadCurriculum(curriculumId, member);
+    @PostMapping("/{currId}")
+    public DownloadCurriculumResponse downloadCurriculum(@PathVariable Long currId) {
+        return curriculumService.downloadCurriculum(currId);
     }
 
     @DeleteMapping("/{id}")

@@ -6,6 +6,7 @@ import com.pickkasso.domain.curriculum.domain.Curriculum;
 import com.pickkasso.domain.member.domain.Member;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,9 +32,14 @@ public class UserCurriculum {
     @Enumerated(EnumType.STRING)
     private StateType state;
 
+    @Builder
     public UserCurriculum(Member member, Curriculum curriculum) {
         this.member = member;
         this.curriculum = curriculum;
         this.state = StateType.InProgress;
+    }
+
+    public static UserCurriculum createUserCurriculum(Member member, Curriculum curr) {
+        return UserCurriculum.builder().member(member).curriculum(curr).build();
     }
 }

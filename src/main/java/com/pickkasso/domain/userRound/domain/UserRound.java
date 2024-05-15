@@ -6,6 +6,7 @@ import com.pickkasso.domain.member.domain.Member;
 import com.pickkasso.domain.round.domain.Round;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -29,10 +30,15 @@ public class UserRound {
     private boolean progressState;
 
     // true : 진행 중
+    @Builder
     public UserRound(Member member, Round round) {
         this.member = member;
         this.round = round;
         this.progressState = false;
+    }
+
+    public static UserRound createUserRound(Member member, Round round) {
+        return UserRound.builder().member(member).round(round).build();
     }
 
     public void changeState() {
