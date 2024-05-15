@@ -29,17 +29,17 @@ public class Round {
     @Column(name = "round_seq")
     private int roundSeq;
 
-    @Column(name = "time", length = 8)
-    private String time;
+    @Column(name = "time")
+    private int time;
 
-    @Column(name = "explanation", length = 15)
+    @Column(name = "explanation", length = 50)
     private String explanation;
 
     @OneToMany(mappedBy = "round")
     private List<UserRound> userRounds = new ArrayList<>();
 
     @Builder
-    public Round(Curriculum curriculum, int order, String time, String explanation) {
+    public Round(Curriculum curriculum, int order, int time, String explanation) {
         this.curriculum = curriculum;
         this.roundSeq = order;
         this.time = time;

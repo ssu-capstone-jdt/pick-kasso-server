@@ -1,4 +1,4 @@
-package com.pickkasso.domain.curriculum.dto;
+package com.pickkasso.domain.curriculum.dto.response;
 
 import java.util.List;
 

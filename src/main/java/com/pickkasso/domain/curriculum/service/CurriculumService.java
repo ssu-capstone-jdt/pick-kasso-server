@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.pickkasso.domain.curriculum.dao.CurriculumRepository;
 import com.pickkasso.domain.curriculum.domain.Curriculum;
-import com.pickkasso.domain.curriculum.dto.AllCurriculumListViewResponse;
-import com.pickkasso.domain.curriculum.dto.CurriculumResponse;
-import com.pickkasso.domain.curriculum.dto.SelectedCurriculumResponse;
-import com.pickkasso.domain.curriculum.dto.UserCurriculumListViewResponse;
+import com.pickkasso.domain.curriculum.dto.response.AllCurriculumListViewResponse;
+import com.pickkasso.domain.curriculum.dto.response.CurriculumResponse;
+import com.pickkasso.domain.curriculum.dto.response.SelectedCurriculumResponse;
+import com.pickkasso.domain.curriculum.dto.response.UserCurriculumListViewResponse;
+import com.pickkasso.domain.curriculum.dto.request.AddCurriculumRequest;
+import com.pickkasso.domain.curriculum.dto.response.AddCurriculumResponse;
 import com.pickkasso.domain.curriculumBackground.domain.CurriculumBackground;
 import com.pickkasso.domain.curriculumBackground.service.CurriculumBackgroundService;
 import com.pickkasso.domain.member.domain.Member;
@@ -27,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CurriculumService {
     private final CurriculumRepository curriculumRepository;
     private final UserCurriculumService userCurriculumService;
@@ -108,40 +112,28 @@ public class CurriculumService {
         curriculumRepository.deleteById(id);
     }
 
-    public Curriculum addCurriculum(
-            String curriculumTitle,
-            String curriculumInfo,
-            String curriculumExplanation,
-            int curriculumRoundCount,
-            String curriculumDifficulty,
-            String curriculumBackground,
-            List<String> times,
-            List<String> explanations) {
+    public AddCurriculumResponse addCurriculum(AddCurriculumRequest request) {
 
         Curriculum curriculum =
-                Curriculum.builder()
-                        .curriculumTitle(curriculumTitle)
-                        .curriculumInfo(curriculumInfo)
-                        .curriculumExplanation(curriculumExplanation)
-                        .curriculumRoundCount(curriculumRoundCount)
-                        .curriculumDifficulty(curriculumDifficulty)
-                        .build();
-
+                Curriculum.createCurriculum(
+                        request.getCurrTitle(),
+                        request.getCurrInfo(),
+                        request.getCurrExplanation(),
+                        request.getCurrRoundCount(),
+                        request.getCurrExplanation());
         CurriculumBackground background =
                 curriculumBackgroundService.setCurriculumBackground(
-                        curriculum, curriculumBackground);
+                        curriculum, request.getCurrBackground());
+        curriculum.setCurriculumBackgrounds(background);
 
         List<Round> rounds = new ArrayList<>();
-        for (int order = 1; order <= times.size(); order++) {
-            Round round =
-                    roundService.setRound(
-                            curriculum, order, times.get(order - 1), explanations.get(order - 1));
-            rounds.add(round);
+        List<Integer> times = request.getTimes();
+        List<String> explanations = request.getExplanations();
+
+        for (int i = 0; i < times.size(); i++) {
+            rounds.add(roundService.setRound(curriculum, i + 1, times.get(i), explanations.get(i)));
         }
-
-        curriculum.setBackground(background);
         curriculum.setRounds(rounds);
-
-        return curriculumRepository.save(curriculum);
+        return new AddCurriculumResponse(curriculumRepository.save(curriculum));
     }
 }
