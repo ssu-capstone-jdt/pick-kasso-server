@@ -24,7 +24,10 @@ import com.pickkasso.domain.userRound.dto.UserRoundResponse;
 import com.pickkasso.domain.userRound.service.UserRoundService;
 import com.pickkasso.domain.usercurriculum.domain.StateType;
 import com.pickkasso.domain.usercurriculum.domain.UserCurriculum;
+import com.pickkasso.domain.usercurriculum.dto.response.DownloadCurriculumResponse;
 import com.pickkasso.domain.usercurriculum.service.UserCurriculumService;
+import com.pickkasso.global.error.exception.CustomException;
+import com.pickkasso.global.error.exception.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
 
@@ -60,18 +63,14 @@ public class CurriculumService {
         return allCurriculumListViewResponses;
     }
 
-    public void downloadCurriculum(Long curriculumId, Member member) {
-        Curriculum curriculum =
+    public DownloadCurriculumResponse downloadCurriculum(Long currId) {
+        Curriculum curr =
                 curriculumRepository
-                        .findById(curriculumId)
-                        .orElseThrow(
-                                () ->
-                                        new IllegalArgumentException(
-                                                "Curriculum not found with id: " + curriculumId));
-
-        UserCurriculum userCurriculum = userCurriculumService.getUserCurriculum(member, curriculum);
-
-        userCurriculumService.save(userCurriculum);
+                        .findById(currId)
+                        .orElseThrow(() -> new CustomException(ErrorCode.CURR_NOT_FOUND));
+        UserCurriculum userCurriculum = userCurriculumService.saveUserCurriculum(curr);
+        return new DownloadCurriculumResponse(
+                userCurriculum.getMember().getNickname(), curr.getCurriculumTitle());
     }
 
     public List<UserCurriculumListViewResponse> getUserCurriculums(Member member) {
@@ -120,7 +119,7 @@ public class CurriculumService {
                         request.getCurrInfo(),
                         request.getCurrExplanation(),
                         request.getCurrRoundCount(),
-                        request.getCurrExplanation());
+                        request.getCurrDifficulty());
         CurriculumBackground background =
                 curriculumBackgroundService.setCurriculumBackground(
                         curriculum, request.getCurrBackground());

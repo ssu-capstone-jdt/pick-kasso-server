@@ -6,8 +6,11 @@ import org.springframework.stereotype.Service;
 
 import com.pickkasso.domain.curriculum.domain.Curriculum;
 import com.pickkasso.domain.member.domain.Member;
+import com.pickkasso.domain.round.domain.Round;
+import com.pickkasso.domain.userRound.domain.UserRound;
 import com.pickkasso.domain.usercurriculum.dao.UserCurriculumRepository;
 import com.pickkasso.domain.usercurriculum.domain.UserCurriculum;
+import com.pickkasso.global.util.MemberUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,17 +18,25 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class UserCurriculumService {
     private final UserCurriculumRepository userCurriculumRepository;
+    private final MemberUtil memberUtil;
 
     public List<UserCurriculum> findByMember(Member member) {
         return userCurriculumRepository.findByMember(member);
     }
 
-    public UserCurriculum save(UserCurriculum userCurriculum) {
-        return userCurriculumRepository.save(userCurriculum);
-    }
+    public UserCurriculum saveUserCurriculum(Curriculum curr) {
+        Member member = memberUtil.getCurrentMember();
+        UserCurriculum userCurriculum = UserCurriculum.createUserCurriculum(member, curr);
 
-    public UserCurriculum getUserCurriculum(Member member, Curriculum curriculum) {
-        UserCurriculum userCurriculum = new UserCurriculum(member, curriculum);
+        for (Round round : curr.getRounds()) {
+            UserRound userRound = UserRound.createUserRound(member, round);
+            round.getUserRounds().add(userRound);
+            member.getUserRounds().add(userRound);
+        }
+
+        member.getUserCurriculums().add(userCurriculum);
+        curr.getUserCurriculums().add(userCurriculum);
+
         return userCurriculum;
     }
 }

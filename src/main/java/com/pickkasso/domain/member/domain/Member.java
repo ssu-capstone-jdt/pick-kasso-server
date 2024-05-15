@@ -51,9 +51,9 @@ public class Member extends BaseEntity {
                 .build();
     }
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<UserCurriculum> userCurriculums = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<UserRound> userRounds = new ArrayList<>();
 }

@@ -35,7 +35,7 @@ public class Round {
     @Column(name = "explanation", length = 50)
     private String explanation;
 
-    @OneToMany(mappedBy = "round")
+    @OneToMany(mappedBy = "round", cascade = CascadeType.ALL)
     private List<UserRound> userRounds = new ArrayList<>();
 
     @Builder
