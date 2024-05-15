@@ -8,10 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.pickkasso.domain.curriculum.dao.CurriculumRepository;
 import com.pickkasso.domain.curriculum.domain.Curriculum;
-import com.pickkasso.domain.curriculum.dto.AllCurriculumListViewResponse;
-import com.pickkasso.domain.curriculum.dto.CurriculumResponse;
-import com.pickkasso.domain.curriculum.dto.SelectedCurriculumResponse;
-import com.pickkasso.domain.curriculum.dto.UserCurriculumListViewResponse;
+import com.pickkasso.domain.curriculum.dto.response.AllCurriculumListViewResponse;
+import com.pickkasso.domain.curriculum.dto.response.CurriculumResponse;
+import com.pickkasso.domain.curriculum.dto.response.SelectedCurriculumResponse;
+import com.pickkasso.domain.curriculum.dto.response.UserCurriculumListViewResponse;
 import com.pickkasso.domain.curriculum.dto.request.AddCurriculumRequest;
 import com.pickkasso.domain.curriculum.dto.response.AddCurriculumResponse;
 import com.pickkasso.domain.curriculumBackground.domain.CurriculumBackground;

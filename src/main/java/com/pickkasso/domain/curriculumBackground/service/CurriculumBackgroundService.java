@@ -18,8 +18,6 @@ public class CurriculumBackgroundService {
     }
 
     public CurriculumBackground setCurriculumBackground(Curriculum curr, String link) {
-        CurriculumBackground curriculumBackground =
-                CurriculumBackground.createCurrBackground(curr, link);
-        return curriculumBackgroundRepository.save(curriculumBackground);
+        return curriculumBackgroundRepository.save(CurriculumBackground.createCurrBackground(curr, link));
     }
 }
