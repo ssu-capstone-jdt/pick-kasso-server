@@ -6,6 +6,7 @@ import lombok.Getter;
 
 @Getter
 public class CurriculumResponse {
+    private Long curriculumId;
     private String curriculumTitle;
     private String curriculumInfo;
     private String curriculumExplanation;
@@ -14,6 +15,7 @@ public class CurriculumResponse {
     private String curriculumDifficulty;
 
     public CurriculumResponse(Curriculum curriculum) {
+        this.curriculumId = curriculum.getId();
         this.curriculumTitle = curriculum.getCurriculumTitle();
         this.curriculumInfo = curriculum.getCurriculumInfo();
         this.curriculumExplanation = curriculum.getCurriculumExplanation();

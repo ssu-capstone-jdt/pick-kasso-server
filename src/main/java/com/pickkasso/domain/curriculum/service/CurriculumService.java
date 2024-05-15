@@ -45,21 +45,22 @@ public class CurriculumService {
         List<Curriculum> curriculums = curriculumRepository.findAll();
         List<UserCurriculum> userCurriculums = userCurriculumService.findByMember(member);
         List<AllCurriculumListViewResponse> allCurriculumListViewResponses = new ArrayList<>();
+
         for (Curriculum curriculum : curriculums) {
             AllCurriculumListViewResponse allCurriculumListViewResponse =
                     new AllCurriculumListViewResponse();
             allCurriculumListViewResponse.setCurriculumResponse(new CurriculumResponse(curriculum));
+            allCurriculumListViewResponse.setState(StateType.Pending);
 
             for (UserCurriculum userCurriculum : userCurriculums) {
                 if (userCurriculum.getCurriculum().getId() == curriculum.getId()) {
                     allCurriculumListViewResponse.setState(userCurriculum.getState());
-                } else {
-                    allCurriculumListViewResponse.setState(StateType.Pending);
+                    break;
                 }
             }
-
             allCurriculumListViewResponses.add(allCurriculumListViewResponse);
         }
+
         return allCurriculumListViewResponses;
     }
 
@@ -86,6 +87,7 @@ public class CurriculumService {
         }
         return userCurriculumListViewResponses;
     }
+
 
     public SelectedCurriculumResponse getSelectedCurriculum(long id, Member member) {
         Curriculum curriculum =
