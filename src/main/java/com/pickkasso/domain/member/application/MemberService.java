@@ -15,6 +15,6 @@ public class MemberService {
 
     public MemberInfoResponse getMemberInfo() {
         final Member member = memberUtil.getCurrentMember();
-        return new MemberInfoResponse(member.getNickname(), member.getProfilelink());
+        return new MemberInfoResponse(member.getNickname(), member.getOauthInfo().getProfile());
     }
 }

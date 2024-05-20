@@ -15,12 +15,14 @@ public class OauthInfo {
     private String oauthId;
     private String oauthProvider;
     private String oauthEmail;
+    private String profile;
 
     @Builder
-    public OauthInfo(String oauthId, String oauthProvider, String oauthEmail) {
+    public OauthInfo(String oauthId, String oauthProvider, String oauthEmail, String profile) {
         this.oauthId = oauthId;
         this.oauthProvider = oauthProvider;
         this.oauthEmail = oauthEmail;
+        this.profile = profile;
     }
 
     public static OauthInfo createOauthInfo(OidcUser user) {
@@ -28,6 +30,7 @@ public class OauthInfo {
                 .oauthId(user.getSubject())
                 .oauthProvider(user.getIssuer().toString())
                 .oauthEmail(user.getEmail())
+                .profile(user.getAttributes().get("picture").toString())
                 .build();
     }
 }
