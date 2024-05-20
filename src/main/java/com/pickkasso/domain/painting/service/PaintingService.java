@@ -2,10 +2,10 @@
 package com.pickkasso.domain.painting.service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,6 +24,7 @@ import com.pickkasso.domain.painting.dto.AllPaintingListViewResponse;
 import com.pickkasso.domain.painting.dto.UserPaintingListViewResponse;
 import com.pickkasso.domain.round.dao.RoundRepository;
 import com.pickkasso.domain.round.domain.Round;
+import com.pickkasso.global.error.exception.RoundNotFoundException;
 
 import lombok.RequiredArgsConstructor;
 
@@ -34,9 +35,9 @@ public class PaintingService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    @Autowired private AmazonS3 s3Client;
+    private final AmazonS3 s3Client;
 
-    @Autowired private PaintingRepository paintingRepository;
+    private final PaintingRepository paintingRepository;
 
     private final RoundRepository roundRepository;
     private final CurriculumRepository curriculumRepository;
@@ -51,6 +52,13 @@ public class PaintingService {
         painting.setPaintingLink(fileUrl);
         painting.setMemberId(memberId);
         painting.setPaintingName(fileName);
+
+        painting.setTimeStamp(LocalDateTime.now());
+
+        if (!roundRepository.existsById(painting.getRoundId())) {
+            throw new RoundNotFoundException(painting.getRoundId());
+        }
+
         paintingRepository.save(painting);
 
         // try {
@@ -66,6 +74,7 @@ public class PaintingService {
 
     public void deletePainting(Long paintingId) throws IOException {
         Painting painting = paintingRepository.findById(paintingId).orElseThrow();
+
         try {
             s3Client.deleteObject(bucket, painting.getPaintingName());
         } catch (SdkClientException e) {

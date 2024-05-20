@@ -1,6 +1,8 @@
 // Painting
 package com.pickkasso.domain.painting.domain;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 
 import lombok.*;
@@ -57,6 +59,10 @@ public class Painting {
     @Column(name = "painting_Name")
     private String paintingName;
 
+    // 추가
+    @Column(name = "created_at")
+    private LocalDateTime timeStamp;
+
     @Builder
     public Painting(
             Long memberId,
@@ -81,5 +87,10 @@ public class Painting {
 
     public void setPaintingName(String paintingName) {
         this.paintingName = paintingName;
+    }
+
+    // 추가
+    public void setTimeStamp(LocalDateTime timestamp) {
+        this.timeStamp = timestamp;
     }
 }

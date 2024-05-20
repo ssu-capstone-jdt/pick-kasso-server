@@ -19,7 +19,7 @@ public class UserPaintingListViewResponse {
     public UserPaintingListViewResponse(Painting painting, Curriculum curriculum) {
         this.paintingLink = painting.getPaintingLink();
         this.paintingTitle = painting.getPaintingTitle();
-        // this.createdAt = globalResponse.getCreatedAt();
+        this.createdAt = painting.getTimeStamp();
         this.curriculumTitle = curriculum.getCurriculumTitle();
         this.curriculumInfo = curriculum.getCurriculumInfo();
     }
