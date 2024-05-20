@@ -61,14 +61,11 @@ public class PaintingService {
 
         paintingRepository.save(painting);
 
-        // try {
+
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(file.getSize());
         s3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
-        //        } catch (IOException e) {
-        //            e.printStackTrace();
-        //            return HttpStatus.INTERNAL_SERVER_ERROR.toString();
-        //        }
+
         return paintingRepository.save(painting);
     }
 
@@ -80,8 +77,6 @@ public class PaintingService {
         } catch (SdkClientException e) {
             throw new IOException("Error deleting file");
         }
-        //        Painting painting =
-        //        paintingRepository.delete();
     }
 
     public List<AllPaintingListViewResponse> getAllPaintings() {
@@ -120,91 +115,5 @@ public class PaintingService {
         return userPaintingListViewResponses;
     }
 
-    // addPainting
-    //    public String uploadPainting(MultipartFile paintingFile, String title) {
-    //
-    //        String fileName = generateFileName(paintingFile);
-    //        try {
-    //            ObjectMetadata metadata = new ObjectMetadata();
-    //            metadata.setContentLength(paintingFile.getSize());
-    //            metadata.addUserMetadata("title", title); // Adding title as metadata
-    //            s3Client.putObject(
-    //                    new PutObjectRequest(bucket, fileName, convert(paintingFile), metadata));
-    //            return "Image uploaded successfully!";
-    //        } catch (IOException e) {
-    //            e.printStackTrace();
-    //            return "Failed to upload image.";
-    //        }
-    //    }
-    //
-    //    private String generateFileName(MultipartFile file) {
-    //        return UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
-    //    }
-    //
-    //    private InputStream convert(MultipartFile file) throws IOException {
-    //        return file.getInputStream();
-    //    }
-    //
-    // deletePainting
-    //        public void deletePainting(Long userId) {
-    //            Painting painting =
-    //                    paintingRepository
-    //                            .findById(userId)
-    //                            .orElseThrow(
-    //                                    () ->
-    //                                            new RuntimeException(
-    //                                                    "Painting not found with id: " + userId));
-    //
-    //            String objectKey = painting.getPaintingLink();
-    //
-    //            final AmazonS3 s3 =
-    //
-    // AmazonS3ClientBuilder.standard().withRegion(Regions.DEFAULT_REGION).build();
-    //
-    //            try {
-    //                // 객체 삭제
-    //                s3.deleteObject(bucket, objectKey);
-    //                System.out.println("Object deleted successfully.");
-    //            } catch (AmazonServiceException e) {
-    //                // 에러 발생 시 예외 처리
-    //                System.err.println("Error occurred: " + e.getErrorMessage());
-    //                System.exit(1);
-    //            }
-    //
-    //        paintingRepository.delete(painting);
-    //    }
-
-    //    public List<AllPaintingListViewResponse> getAllPaintings(){
-    //        List<Painting> paintings = paintingRepository.findByState(true);
-    //
-    //        // 각 그림에 대한 정보를 담은 DTO를 생성
-    //        return paintings.stream()
-    //                .map(painting -> {
-    //                    Member user = userService.getUserById(painting.getUserId());
-    //                    Curriculum curriculum =
-    // curriculumService.getCurriculumById(painting.getCurriculumId());
-    //
-    //                    // painting, user, curriculum 정보를 이용하여 DTO를 생성
-    //                    return new AllPaintingListViewResponse(
-    //                            painting.getPaintingLink(),
-    //                            painting.getPaintingTitle(),
-    //                            curriculum.getCurriculumTitle(),
-    //                            curriculum.getCurriculumInfo(),
-    //                            //painting.getCreatedAt(),
-    //                            user.getNickname(),
-    //                            //user.getUserProfileUrl()
-    //                    );
-    //                })
-    //                .collect(Collectors.toList());
-    //    }
-    //
-    //
-    //    public List<UserPaintingListViewResponse> getUsersPaintings(Long userId) {
-    //        List<Painting> paintings = paintingRepository.findByUserId(userId);
-    //        Curriculum curriculum = curriculumRepository.findById();
-    //        return paintings.stream()
-    //                .map(painting -> new UserPaintingListViewResponse(painting, curriculum))
-    //                .collect(Collectors.toList());
-    //    }
 
 }
