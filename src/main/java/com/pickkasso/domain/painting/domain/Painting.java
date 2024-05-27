@@ -7,6 +7,7 @@ import com.pickkasso.domain.common.model.BaseEntity;
 
 import lombok.*;
 
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

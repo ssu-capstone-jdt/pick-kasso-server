@@ -8,7 +8,7 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.pickkasso.domain.auth.dto.response.GoogleTokenResponse;
+import com.pickkasso.domain.auth.dto.response.GoogleLoginResponse;
 import com.pickkasso.domain.auth.dto.response.TokenPairResponse;
 import com.pickkasso.domain.member.dao.MemberRepository;
 import com.pickkasso.domain.member.domain.Member;
@@ -28,7 +28,7 @@ public class AuthService {
     private final JwtTokenService jwtTokenService;
 
     public TokenPairResponse socialLogin(String authcode) {
-        GoogleTokenResponse response = googleTokenService.getGoogleTokenResponse(authcode);
+        GoogleLoginResponse response = googleTokenService.getGoogleTokenResponse(authcode);
         OidcUser oidcUser = idTokenVerifier.getOidcUser(response.getIdToken());
         OauthInfo oauthInfo = OauthInfo.createOauthInfo(oidcUser);
 
