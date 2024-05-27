@@ -11,6 +11,7 @@ import com.pickkasso.domain.member.domain.Member;
 import com.pickkasso.domain.painting.domain.Painting;
 import com.pickkasso.domain.painting.dto.AddPaintingRequest;
 import com.pickkasso.domain.painting.dto.AllPaintingListViewResponse;
+import com.pickkasso.domain.painting.dto.StampListViewResponse;
 import com.pickkasso.domain.painting.dto.UserPaintingListViewResponse;
 import com.pickkasso.domain.painting.service.PaintingService;
 import com.pickkasso.global.util.MemberUtil;
@@ -41,11 +42,17 @@ public class PaintingController {
             @RequestParam("file") MultipartFile file, AddPaintingRequest addPaintingRequest)
             throws IOException {
         final Member member = memberUtil.getCurrentMember();
-        return paintingService.uploadPainting(file, addPaintingRequest, member.getId());
+        return paintingService.addPainting(file, addPaintingRequest, member.getId());
     }
 
     @DeleteMapping
     public void deletePainting(Long paintingId) throws IOException {
         paintingService.deletePainting(paintingId);
+    }
+
+    @GetMapping(value = "/")
+    public List<StampListViewResponse> getUsersStamp() {
+        Member member = memberUtil.getCurrentMember();
+        return paintingService.getUsersStamp(member.getId());
     }
 }

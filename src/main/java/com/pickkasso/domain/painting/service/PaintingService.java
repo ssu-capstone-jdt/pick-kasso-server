@@ -2,6 +2,7 @@
 package com.pickkasso.domain.painting.service;
 
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ import com.pickkasso.domain.painting.dao.PaintingRepository;
 import com.pickkasso.domain.painting.domain.Painting;
 import com.pickkasso.domain.painting.dto.AddPaintingRequest;
 import com.pickkasso.domain.painting.dto.AllPaintingListViewResponse;
+import com.pickkasso.domain.painting.dto.StampListViewResponse;
 import com.pickkasso.domain.painting.dto.UserPaintingListViewResponse;
 import com.pickkasso.domain.round.dao.RoundRepository;
 import com.pickkasso.domain.round.domain.Round;
@@ -43,17 +45,17 @@ public class PaintingService {
     private final CurriculumRepository curriculumRepository;
     private final MemberRepository memberRepository;
 
-    public Painting uploadPainting(
+    public Painting addPainting(
             MultipartFile file, AddPaintingRequest addPaintingRequest, Long memberId)
             throws IOException {
         Painting painting = addPaintingRequest.toEntity();
         String fileName = file.getOriginalFilename();
-        String fileUrl = "https://s3.amazonaws.com/" + bucket + fileName;
+
+        String fileUrl = uploadPainting(file);
+
         painting.setPaintingLink(fileUrl);
         painting.setMemberId(memberId);
         painting.setPaintingName(fileName);
-
-        painting.setTimeStamp(LocalDateTime.now());
 
         if (!roundRepository.existsById(painting.getRoundId())) {
             throw new RoundNotFoundException(painting.getRoundId());
@@ -61,12 +63,24 @@ public class PaintingService {
 
         paintingRepository.save(painting);
 
-
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(file.getSize());
         s3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
 
         return paintingRepository.save(painting);
+    }
+
+    public String uploadPainting(MultipartFile file) throws IOException{
+        String fileName = file.getOriginalFilename();
+
+        URL url = s3Client.getUrl(bucket, fileName);
+        String fileUrl = url.toString();
+
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentLength(file.getSize());
+        s3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
+
+        return fileUrl;
     }
 
     public void deletePainting(Long paintingId) throws IOException {
@@ -115,5 +129,15 @@ public class PaintingService {
         return userPaintingListViewResponses;
     }
 
+    public List<StampListViewResponse> getUsersStamp(Long memberId) {
+        List<Painting> paintings = paintingRepository.findByMemberId(memberId);
+        List<StampListViewResponse> stampListViewResponses = new ArrayList<>();
 
+
+        for (Painting painting : paintings) {
+            LocalDateTime localDateTime = painting.getCreatedAt();
+            stampListViewResponses.add(new StampListViewResponse(localDateTime));
+        }
+        return stampListViewResponses;
+    }
 }
