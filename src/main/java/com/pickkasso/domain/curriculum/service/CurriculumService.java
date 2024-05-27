@@ -1,8 +1,10 @@
 package com.pickkasso.domain.curriculum.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.pickkasso.domain.painting.service.PaintingService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +33,7 @@ import com.pickkasso.global.error.exception.CustomException;
 import com.pickkasso.global.error.exception.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -41,6 +44,9 @@ public class CurriculumService {
     private final CurriculumBackgroundService curriculumBackgroundService;
     private final RoundService roundService;
     private final UserRoundService userRoundService;
+
+
+    private final PaintingService paintingService;
 
     public List<AllCurriculumListViewResponse> getAllCurriculums(Member member) {
         List<Curriculum> curriculums = curriculumRepository.findAll();
@@ -54,7 +60,7 @@ public class CurriculumService {
             allCurriculumListViewResponse.setState(StateType.Pending);
 
             for (UserCurriculum userCurriculum : userCurriculums) {
-                if (userCurriculum.getCurriculum().getId() == curriculum.getId()) {
+                if (userCurriculum.getCurriculum().getId().equals(curriculum.getId())) {
                     allCurriculumListViewResponse.setState(userCurriculum.getState());
                     break;
                 }
@@ -117,7 +123,10 @@ public class CurriculumService {
                 .orElseThrow(() -> new CustomException(ErrorCode.CURR_NOT_FOUND));
     }
 
-    public AddCurriculumResponse addCurriculum(AddCurriculumRequest request) {
+
+    public AddCurriculumResponse addCurriculum(MultipartFile file, AddCurriculumRequest request) throws IOException {
+
+        String fileUrl = paintingService.uploadPainting(file);
 
         Curriculum curriculum =
                 Curriculum.createCurriculum(
@@ -125,7 +134,8 @@ public class CurriculumService {
                         request.getCurrInfo(),
                         request.getCurrExplanation(),
                         request.getCurrRoundCount(),
-                        request.getCurrDifficulty());
+                        request.getCurrDifficulty(),
+                        fileUrl);
         CurriculumBackground background =
                 curriculumBackgroundService.setCurriculumBackground(
                         curriculum, request.getCurrBackground());
@@ -139,6 +149,35 @@ public class CurriculumService {
             rounds.add(roundService.setRound(curriculum, i + 1, times.get(i), explanations.get(i)));
         }
         curriculum.setRounds(rounds);
+
         return new AddCurriculumResponse(curriculumRepository.save(curriculum));
     }
+
+    public AddCurriculumResponse addCurriculum(AddCurriculumRequest request){
+
+        Curriculum curriculum =
+                Curriculum.createCurriculum(
+                        request.getCurrTitle(),
+                        request.getCurrInfo(),
+                        request.getCurrExplanation(),
+                        request.getCurrRoundCount(),
+                        request.getCurrDifficulty(),
+                        null);
+        CurriculumBackground background =
+                curriculumBackgroundService.setCurriculumBackground(
+                        curriculum, request.getCurrBackground());
+        curriculum.setCurriculumBackgrounds(background);
+
+        List<Round> rounds = new ArrayList<>();
+        List<Integer> times = request.getTimes();
+        List<String> explanations = request.getExplanations();
+
+        for (int i = 0; i < times.size(); i++) {
+            rounds.add(roundService.setRound(curriculum, i + 1, times.get(i), explanations.get(i)));
+        }
+        curriculum.setRounds(rounds);
+
+        return new AddCurriculumResponse(curriculumRepository.save(curriculum));
+    }
+
 }
