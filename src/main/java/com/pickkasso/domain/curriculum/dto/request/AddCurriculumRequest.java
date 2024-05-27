@@ -2,6 +2,8 @@ package com.pickkasso.domain.curriculum.dto.request;
 
 import java.util.List;
 
+import com.pickkasso.domain.curriculum.domain.CurriculumDifficulty;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +16,7 @@ public class AddCurriculumRequest {
     private String currInfo;
     private String currExplanation;
     private int currRoundCount;
-    private String currDifficulty;
+    private CurriculumDifficulty currDifficulty;
     private String currBackground;
     private List<Integer> times;
     private List<String> explanations;

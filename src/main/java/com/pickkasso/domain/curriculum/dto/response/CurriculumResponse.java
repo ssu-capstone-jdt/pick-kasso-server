@@ -1,6 +1,7 @@
 package com.pickkasso.domain.curriculum.dto.response;
 
 import com.pickkasso.domain.curriculum.domain.Curriculum;
+import com.pickkasso.domain.curriculum.domain.CurriculumDifficulty;
 
 import lombok.Getter;
 
@@ -12,7 +13,7 @@ public class CurriculumResponse {
     private String curriculumExplanation;
     private String curriculumBackground;
     private int curriculumRoundCount;
-    private String curriculumDifficulty;
+    private CurriculumDifficulty curriculumDifficulty;
 
     public CurriculumResponse(Curriculum curriculum) {
         this.curriculumId = curriculum.getId();
