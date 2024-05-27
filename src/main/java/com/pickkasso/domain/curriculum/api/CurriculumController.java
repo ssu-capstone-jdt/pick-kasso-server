@@ -1,5 +1,6 @@
 package com.pickkasso.domain.curriculum.api;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import com.pickkasso.domain.usercurriculum.dto.response.DownloadCurriculumRespon
 import com.pickkasso.global.util.MemberUtil;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/curriculums")
@@ -51,6 +53,11 @@ public class CurriculumController {
     @DeleteMapping("/{currId}")
     public DeleteUserCurriculumResponse deleteUserCurriculum(@PathVariable Long currId) {
         return curriculumService.deleteUserCurriculum(currId);
+    }
+
+    @PostMapping
+    public AddCurriculumResponse addCurriculum(@RequestParam("file") MultipartFile file, @RequestBody AddCurriculumRequest request) throws IOException {
+        return curriculumService.addCurriculum(file, request);
     }
 
     @PostMapping

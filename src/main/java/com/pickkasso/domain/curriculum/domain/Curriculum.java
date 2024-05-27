@@ -37,6 +37,9 @@ public class Curriculum {
     @Column(name = "curriculum_difficulty", length = 10)
     private String curriculumDifficulty;
 
+    @Column(name = "curriculum_painting")
+    private String curriculumPainting;
+
     @OneToMany(mappedBy = "curriculum", cascade = CascadeType.ALL)
     private List<UserCurriculum> userCurriculums = new ArrayList<>();
 
@@ -46,28 +49,33 @@ public class Curriculum {
     @OneToOne(mappedBy = "curriculum")
     private CurriculumBackground curriculumBackgrounds;
 
+
+
     @Builder
     public Curriculum(
             String curriculumTitle,
             String curriculumInfo,
             String curriculumExplanation,
             int curriculumRoundCount,
-            String curriculumDifficulty) {
+            String curriculumDifficulty,
+            String curriculumPainting) {
         this.curriculumTitle = curriculumTitle;
         this.curriculumInfo = curriculumInfo;
         this.curriculumExplanation = curriculumExplanation;
         this.curriculumRoundCount = curriculumRoundCount;
         this.curriculumDifficulty = curriculumDifficulty;
+        this.curriculumPainting = curriculumPainting;
     }
 
     public static Curriculum createCurriculum(
-            String title, String info, String ex, int cnt, String diff) {
+            String title, String info, String ex, int cnt, String diff, String fileUrl) {
         return Curriculum.builder()
                 .curriculumTitle(title)
                 .curriculumInfo(info)
                 .curriculumExplanation(ex)
                 .curriculumRoundCount(cnt)
                 .curriculumDifficulty(diff)
+                .curriculumPainting(fileUrl)
                 .build();
     }
 
