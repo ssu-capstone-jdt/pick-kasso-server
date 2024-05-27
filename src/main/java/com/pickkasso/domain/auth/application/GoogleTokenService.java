@@ -7,8 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.pickkasso.domain.auth.dao.GoogleRefreshTokenRepository;
 import com.pickkasso.domain.auth.domain.GoogleRefreshToken;
-import com.pickkasso.domain.auth.dto.response.GoogleTokenResponse;
+import com.pickkasso.domain.auth.dto.response.GoogleLoginResponse;
 import com.pickkasso.infra.config.feign.GoogleApiClient;
+import com.pickkasso.infra.config.feign.GoogleDriveApiClient;
 import com.pickkasso.infra.config.oauth.GoogleProperties;
 
 import lombok.RequiredArgsConstructor;
@@ -22,10 +23,11 @@ public class GoogleTokenService {
     private static final String AUTHORIZATION_CODE = "authorization_code";
 
     private final GoogleRefreshTokenRepository refreshTokenRepository;
+    private final GoogleDriveApiClient googleDriveApiClient;
     private final GoogleApiClient googleApiClient;
     private final GoogleProperties properties;
 
-    public GoogleTokenResponse getGoogleTokenResponse(String authcode) {
+    public GoogleLoginResponse getGoogleTokenResponse(String authcode) {
         return googleApiClient.getToken(
                 authcode,
                 properties.getId(),
