@@ -35,7 +35,7 @@ public class Curriculum {
     private int curriculumRoundCount;
 
     @Column(name = "curriculum_difficulty", length = 10)
-    private String curriculumDifficulty;
+    private CurriculumDifficulty curriculumDifficulty;
 
     @Column(name = "curriculum_painting")
     private String curriculumPainting;
@@ -55,7 +55,7 @@ public class Curriculum {
             String curriculumInfo,
             String curriculumExplanation,
             int curriculumRoundCount,
-            String curriculumDifficulty,
+            CurriculumDifficulty curriculumDifficulty,
             String curriculumPainting) {
         this.curriculumTitle = curriculumTitle;
         this.curriculumInfo = curriculumInfo;
@@ -66,7 +66,7 @@ public class Curriculum {
     }
 
     public static Curriculum createCurriculum(
-            String title, String info, String ex, int cnt, String diff, String fileUrl) {
+            String title, String info, String ex, int cnt, CurriculumDifficulty diff, String fileUrl) {
         return Curriculum.builder()
                 .curriculumTitle(title)
                 .curriculumInfo(info)
