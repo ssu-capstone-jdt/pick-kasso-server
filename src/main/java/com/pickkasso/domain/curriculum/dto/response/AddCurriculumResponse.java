@@ -1,8 +1,8 @@
 package com.pickkasso.domain.curriculum.dto.response;
 
 import com.pickkasso.domain.curriculum.domain.Curriculum;
-
 import com.pickkasso.domain.curriculum.domain.CurriculumDifficulty;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

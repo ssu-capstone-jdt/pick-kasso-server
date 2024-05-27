@@ -66,7 +66,12 @@ public class Curriculum {
     }
 
     public static Curriculum createCurriculum(
-            String title, String info, String ex, int cnt, CurriculumDifficulty diff, String fileUrl) {
+            String title,
+            String info,
+            String ex,
+            int cnt,
+            CurriculumDifficulty diff,
+            String fileUrl) {
         return Curriculum.builder()
                 .curriculumTitle(title)
                 .curriculumInfo(info)

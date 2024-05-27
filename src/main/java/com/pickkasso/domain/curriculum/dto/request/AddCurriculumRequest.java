@@ -3,6 +3,7 @@ package com.pickkasso.domain.curriculum.dto.request;
 import java.util.List;
 
 import com.pickkasso.domain.curriculum.domain.CurriculumDifficulty;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
