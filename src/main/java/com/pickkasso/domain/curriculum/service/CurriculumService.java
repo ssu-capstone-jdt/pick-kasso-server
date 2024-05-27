@@ -86,7 +86,6 @@ public class CurriculumService {
         return userCurriculumListViewResponses;
     }
 
-
     public SelectedCurriculumResponse getSelectedCurriculum(long id, Member member) {
         Curriculum curriculum =
                 curriculumRepository

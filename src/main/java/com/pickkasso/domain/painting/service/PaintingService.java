@@ -42,6 +42,7 @@ public class PaintingService {
     private final RoundRepository roundRepository;
     private final CurriculumRepository curriculumRepository;
     private final MemberRepository memberRepository;
+    private final GoogleDriveService googleDriveService;
 
     public Painting uploadPainting(
             MultipartFile file, AddPaintingRequest addPaintingRequest, Long memberId)
@@ -61,10 +62,12 @@ public class PaintingService {
 
         paintingRepository.save(painting);
 
-
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(file.getSize());
         s3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
+
+        byte[] fileContent = file.getBytes();
+        googleDriveService.uploadToGoogleDrive(memberId, fileContent);
 
         return paintingRepository.save(painting);
     }
@@ -114,6 +117,4 @@ public class PaintingService {
         }
         return userPaintingListViewResponses;
     }
-
-
 }
