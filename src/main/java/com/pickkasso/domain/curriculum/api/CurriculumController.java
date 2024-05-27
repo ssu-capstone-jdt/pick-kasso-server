@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.pickkasso.domain.curriculum.dto.request.AddCurriculumRequest;
 import com.pickkasso.domain.curriculum.dto.response.AddCurriculumResponse;
@@ -17,7 +18,6 @@ import com.pickkasso.domain.usercurriculum.dto.response.DownloadCurriculumRespon
 import com.pickkasso.global.util.MemberUtil;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/curriculums")
@@ -56,12 +56,9 @@ public class CurriculumController {
     }
 
     @PostMapping
-    public AddCurriculumResponse addCurriculum(@RequestParam("file") MultipartFile file, @RequestBody AddCurriculumRequest request) throws IOException {
+    public AddCurriculumResponse addCurriculum(
+            @RequestParam("file") MultipartFile file, @RequestBody AddCurriculumRequest request)
+            throws IOException {
         return curriculumService.addCurriculum(file, request);
-    }
-
-    @PostMapping
-    public AddCurriculumResponse addCurriculum(@RequestBody AddCurriculumRequest request) {
-        return curriculumService.addCurriculum(request);
     }
 }

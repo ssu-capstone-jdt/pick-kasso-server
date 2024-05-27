@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.pickkasso.domain.painting.service.PaintingService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.pickkasso.domain.curriculum.dao.CurriculumRepository;
 import com.pickkasso.domain.curriculum.domain.Curriculum;
@@ -19,6 +19,7 @@ import com.pickkasso.domain.curriculum.dto.response.UserCurriculumListViewRespon
 import com.pickkasso.domain.curriculumBackground.domain.CurriculumBackground;
 import com.pickkasso.domain.curriculumBackground.service.CurriculumBackgroundService;
 import com.pickkasso.domain.member.domain.Member;
+import com.pickkasso.domain.painting.service.PaintingService;
 import com.pickkasso.domain.round.domain.Round;
 import com.pickkasso.domain.round.dto.RoundResponse;
 import com.pickkasso.domain.round.service.RoundService;
@@ -33,7 +34,6 @@ import com.pickkasso.global.error.exception.CustomException;
 import com.pickkasso.global.error.exception.ErrorCode;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +44,6 @@ public class CurriculumService {
     private final CurriculumBackgroundService curriculumBackgroundService;
     private final RoundService roundService;
     private final UserRoundService userRoundService;
-
 
     private final PaintingService paintingService;
 
@@ -123,8 +122,8 @@ public class CurriculumService {
                 .orElseThrow(() -> new CustomException(ErrorCode.CURR_NOT_FOUND));
     }
 
-
-    public AddCurriculumResponse addCurriculum(MultipartFile file, AddCurriculumRequest request) throws IOException {
+    public AddCurriculumResponse addCurriculum(MultipartFile file, AddCurriculumRequest request)
+            throws IOException {
 
         String fileUrl = paintingService.uploadPainting(file);
 
@@ -152,32 +151,4 @@ public class CurriculumService {
 
         return new AddCurriculumResponse(curriculumRepository.save(curriculum));
     }
-
-    public AddCurriculumResponse addCurriculum(AddCurriculumRequest request){
-
-        Curriculum curriculum =
-                Curriculum.createCurriculum(
-                        request.getCurrTitle(),
-                        request.getCurrInfo(),
-                        request.getCurrExplanation(),
-                        request.getCurrRoundCount(),
-                        request.getCurrDifficulty(),
-                        null);
-        CurriculumBackground background =
-                curriculumBackgroundService.setCurriculumBackground(
-                        curriculum, request.getCurrBackground());
-        curriculum.setCurriculumBackgrounds(background);
-
-        List<Round> rounds = new ArrayList<>();
-        List<Integer> times = request.getTimes();
-        List<String> explanations = request.getExplanations();
-
-        for (int i = 0; i < times.size(); i++) {
-            rounds.add(roundService.setRound(curriculum, i + 1, times.get(i), explanations.get(i)));
-        }
-        curriculum.setRounds(rounds);
-
-        return new AddCurriculumResponse(curriculumRepository.save(curriculum));
-    }
-
 }

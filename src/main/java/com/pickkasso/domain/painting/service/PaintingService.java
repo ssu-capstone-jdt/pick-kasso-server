@@ -74,7 +74,7 @@ public class PaintingService {
         return paintingRepository.save(painting);
     }
 
-    public String uploadPainting(MultipartFile file) throws IOException{
+    public String uploadPainting(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
 
         URL url = s3Client.getUrl(bucket, fileName);
@@ -136,7 +136,6 @@ public class PaintingService {
     public List<StampListViewResponse> getUsersStamp(Long memberId) {
         List<Painting> paintings = paintingRepository.findByMemberId(memberId);
         List<StampListViewResponse> stampListViewResponses = new ArrayList<>();
-
 
         for (Painting painting : paintings) {
             LocalDateTime localDateTime = painting.getCreatedAt();

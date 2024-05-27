@@ -1,9 +1,9 @@
 // Painting
 package com.pickkasso.domain.painting.domain;
 
+import jakarta.persistence.*;
 
 import com.pickkasso.domain.common.model.BaseEntity;
-import jakarta.persistence.*;
 
 import lombok.*;
 
@@ -34,7 +34,6 @@ public class Painting extends BaseEntity {
 
     @Column(name = "painting_Name")
     private String paintingName;
-
 
     @Builder
     public Painting(
