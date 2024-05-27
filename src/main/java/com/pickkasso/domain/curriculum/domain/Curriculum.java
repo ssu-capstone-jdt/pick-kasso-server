@@ -49,8 +49,6 @@ public class Curriculum {
     @OneToOne(mappedBy = "curriculum")
     private CurriculumBackground curriculumBackgrounds;
 
-
-
     @Builder
     public Curriculum(
             String curriculumTitle,
