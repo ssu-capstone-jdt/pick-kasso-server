@@ -3,7 +3,9 @@ package com.pickkasso.domain.curriculum.domain;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import jakarta.persistence.*;
+
 import com.pickkasso.domain.round.domain.Round;
 import com.pickkasso.domain.usercurriculum.domain.UserCurriculum;
 
@@ -75,7 +77,6 @@ public class Curriculum {
                 .curriculumPainting(fileUrl)
                 .build();
     }
-
 
     public void setRounds(List<Round> rounds) {
         this.rounds = rounds.stream().collect(Collectors.toList());

@@ -16,7 +16,6 @@ import com.pickkasso.domain.curriculum.dto.response.AllCurriculumListViewRespons
 import com.pickkasso.domain.curriculum.dto.response.CurriculumResponse;
 import com.pickkasso.domain.curriculum.dto.response.SelectedCurriculumResponse;
 import com.pickkasso.domain.curriculum.dto.response.UserCurriculumListViewResponse;
-import com.pickkasso.domain.curriculumBackground.service.CurriculumBackgroundService;
 import com.pickkasso.domain.member.domain.Member;
 import com.pickkasso.domain.painting.service.PaintingService;
 import com.pickkasso.domain.round.domain.Round;

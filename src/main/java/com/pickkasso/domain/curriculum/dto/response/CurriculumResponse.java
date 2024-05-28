@@ -11,7 +11,7 @@ public class CurriculumResponse {
     private String curriculumTitle;
     private String curriculumInfo;
     private String curriculumExplanation;
-    private String curriculumBackground;
+    private String curriculumPainting;
     private int curriculumRoundCount;
     private CurriculumDifficulty curriculumDifficulty;
 
@@ -22,6 +22,6 @@ public class CurriculumResponse {
         this.curriculumExplanation = curriculum.getCurriculumExplanation();
         this.curriculumRoundCount = curriculum.getCurriculumRoundCount();
         this.curriculumDifficulty = curriculum.getCurriculumDifficulty();
-        this.curriculumBackground = curriculum.getCurriculumBackgrounds().getBackgroundLink();
+        this.curriculumPainting = curriculum.getCurriculumPainting();
     }
 }
