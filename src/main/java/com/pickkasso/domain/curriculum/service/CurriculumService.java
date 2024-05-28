@@ -16,7 +16,6 @@ import com.pickkasso.domain.curriculum.dto.response.AllCurriculumListViewRespons
 import com.pickkasso.domain.curriculum.dto.response.CurriculumResponse;
 import com.pickkasso.domain.curriculum.dto.response.SelectedCurriculumResponse;
 import com.pickkasso.domain.curriculum.dto.response.UserCurriculumListViewResponse;
-import com.pickkasso.domain.curriculumBackground.domain.CurriculumBackground;
 import com.pickkasso.domain.curriculumBackground.service.CurriculumBackgroundService;
 import com.pickkasso.domain.member.domain.Member;
 import com.pickkasso.domain.painting.service.PaintingService;
@@ -41,7 +40,6 @@ import lombok.RequiredArgsConstructor;
 public class CurriculumService {
     private final CurriculumRepository curriculumRepository;
     private final UserCurriculumService userCurriculumService;
-    private final CurriculumBackgroundService curriculumBackgroundService;
     private final RoundService roundService;
     private final UserRoundService userRoundService;
 
@@ -126,7 +124,6 @@ public class CurriculumService {
             throws IOException {
 
         String fileUrl = paintingService.uploadPainting(file);
-
         Curriculum curriculum =
                 Curriculum.createCurriculum(
                         request.getCurrTitle(),
@@ -135,14 +132,15 @@ public class CurriculumService {
                         request.getCurrRoundCount(),
                         request.getCurrDifficulty(),
                         fileUrl);
-        CurriculumBackground background =
-                curriculumBackgroundService.setCurriculumBackground(
-                        curriculum, request.getCurrBackground());
-        curriculum.setCurriculumBackgrounds(background);
 
         List<Round> rounds = new ArrayList<>();
-        List<Integer> times = request.getTimes();
-        List<String> explanations = request.getExplanations();
+        List<Integer> times = new ArrayList<>();
+        List<String> explanations = new ArrayList<>();
+
+        for (int i = 0; i < request.getCurrRoundCount(); i++) {
+            times.add(request.getTimes().get(i));
+            explanations.add(request.getExplanations().get(i));
+        }
 
         for (int i = 0; i < times.size(); i++) {
             rounds.add(roundService.setRound(curriculum, i + 1, times.get(i), explanations.get(i)));

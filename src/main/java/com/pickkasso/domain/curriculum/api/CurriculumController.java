@@ -57,7 +57,8 @@ public class CurriculumController {
 
     @PostMapping
     public AddCurriculumResponse addCurriculum(
-            @RequestParam("file") MultipartFile file, @RequestBody AddCurriculumRequest request)
+            @RequestParam("file") MultipartFile file,
+            @RequestPart("request") AddCurriculumRequest request)
             throws IOException {
         return curriculumService.addCurriculum(file, request);
     }

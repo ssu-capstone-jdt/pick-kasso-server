@@ -17,7 +17,6 @@ public class AddCurriculumRequest {
     private String currExplanation;
     private int currRoundCount;
     private CurriculumDifficulty currDifficulty;
-    private String currBackground;
     private List<Integer> times;
     private List<String> explanations;
 }
