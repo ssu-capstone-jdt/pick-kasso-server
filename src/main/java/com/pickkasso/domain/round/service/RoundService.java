@@ -29,7 +29,8 @@ public class RoundService {
                                         new RoundResponse(
                                                 round.getRoundSeq(),
                                                 round.getTime(),
-                                                round.getExplanation()))
+                                                round.getExplanation(),
+                                                round.getId()))
                         .collect(Collectors.toList());
 
         return roundResponses;

@@ -42,12 +42,13 @@ public class PaintingController {
             @RequestParam("file") MultipartFile file, AddPaintingRequest addPaintingRequest)
             throws IOException {
         final Member member = memberUtil.getCurrentMember();
-        return paintingService.addPainting(file, addPaintingRequest, member.getId());
+        return paintingService.addPainting(file, addPaintingRequest, member);
     }
 
     @DeleteMapping
     public void deletePainting(Long paintingId) throws IOException {
-        paintingService.deletePainting(paintingId);
+        final Member member = memberUtil.getCurrentMember();
+        paintingService.deletePainting(member, paintingId);
     }
 
     @GetMapping(value = "/")

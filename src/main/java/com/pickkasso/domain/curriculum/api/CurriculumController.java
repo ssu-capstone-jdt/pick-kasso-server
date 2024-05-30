@@ -7,12 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pickkasso.domain.curriculum.dto.request.AddCurriculumRequest;
-import com.pickkasso.domain.curriculum.dto.response.AddCurriculumResponse;
-import com.pickkasso.domain.curriculum.dto.response.AllCurriculumListViewResponse;
-import com.pickkasso.domain.curriculum.dto.response.SelectedCurriculumResponse;
-import com.pickkasso.domain.curriculum.dto.response.UserCurriculumListViewResponse;
+import com.pickkasso.domain.curriculum.dto.response.*;
 import com.pickkasso.domain.curriculum.service.CurriculumService;
 import com.pickkasso.domain.member.domain.Member;
+import com.pickkasso.domain.userRound.service.UserRoundService;
 import com.pickkasso.domain.usercurriculum.dto.response.DeleteUserCurriculumResponse;
 import com.pickkasso.domain.usercurriculum.dto.response.DownloadCurriculumResponse;
 import com.pickkasso.global.util.MemberUtil;
@@ -24,6 +22,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class CurriculumController {
     private final CurriculumService curriculumService;
+
+    //
+    private final UserRoundService userRoundService;
     private final MemberUtil memberUtil;
 
     @GetMapping
@@ -42,6 +43,7 @@ public class CurriculumController {
     @GetMapping("/{id}")
     public SelectedCurriculumResponse findCurriculum(@PathVariable long id) {
         final Member member = memberUtil.getCurrentMember();
+
         return curriculumService.getSelectedCurriculum(id, member);
     }
 
@@ -57,7 +59,8 @@ public class CurriculumController {
 
     @PostMapping
     public AddCurriculumResponse addCurriculum(
-            @RequestParam("file") MultipartFile file, @RequestBody AddCurriculumRequest request)
+            @RequestParam("file") MultipartFile file,
+            @RequestPart("request") AddCurriculumRequest request)
             throws IOException {
         return curriculumService.addCurriculum(file, request);
     }

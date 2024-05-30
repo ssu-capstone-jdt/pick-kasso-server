@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import jakarta.persistence.*;
 
-import com.pickkasso.domain.curriculumBackground.domain.CurriculumBackground;
 import com.pickkasso.domain.round.domain.Round;
 import com.pickkasso.domain.usercurriculum.domain.UserCurriculum;
 
@@ -46,9 +45,6 @@ public class Curriculum {
     @OneToMany(mappedBy = "curriculum", cascade = CascadeType.ALL)
     private List<Round> rounds = new ArrayList<>();
 
-    @OneToOne(mappedBy = "curriculum")
-    private CurriculumBackground curriculumBackgrounds;
-
     @Builder
     public Curriculum(
             String curriculumTitle,
@@ -80,10 +76,6 @@ public class Curriculum {
                 .curriculumDifficulty(diff)
                 .curriculumPainting(fileUrl)
                 .build();
-    }
-
-    public void setBackground(CurriculumBackground curriculumBackgrounds) {
-        this.curriculumBackgrounds = curriculumBackgrounds;
     }
 
     public void setRounds(List<Round> rounds) {
