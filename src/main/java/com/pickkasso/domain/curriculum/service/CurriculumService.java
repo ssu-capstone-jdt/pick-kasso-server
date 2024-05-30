@@ -70,6 +70,7 @@ public class CurriculumService {
     public DownloadCurriculumResponse downloadCurriculum(Long currId) {
         Curriculum curr = getCurriculum(currId);
         UserCurriculum userCurriculum = userCurriculumService.saveUserCurriculum(curr);
+
         return new DownloadCurriculumResponse(
                 userCurriculum.getMember().getNickname(), curr.getCurriculumTitle());
     }
@@ -99,8 +100,13 @@ public class CurriculumService {
 
         CurriculumResponse curriculumResponse = new CurriculumResponse(curriculum);
         List<RoundResponse> roundResponses = roundService.getRound(curriculum);
-        List<UserRoundResponse> userRoundResponses =
-                userRoundService.getUserRound(member, curriculum);
+        List<UserRoundResponse> userRoundResponses = new ArrayList<>();
+
+        // if 문 추가
+        if (userRoundService.isDownload(member, curriculum)) {
+            userRoundResponses = userRoundService.getUserRound(member, curriculum);
+        }
+
         SelectedCurriculumResponse selectedCurriculumResponse =
                 new SelectedCurriculumResponse(
                         curriculumResponse, roundResponses, userRoundResponses);

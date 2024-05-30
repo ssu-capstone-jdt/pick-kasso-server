@@ -26,6 +26,7 @@ import com.pickkasso.domain.painting.dto.StampListViewResponse;
 import com.pickkasso.domain.painting.dto.UserPaintingListViewResponse;
 import com.pickkasso.domain.round.dao.RoundRepository;
 import com.pickkasso.domain.round.domain.Round;
+import com.pickkasso.domain.userRound.service.UserRoundService;
 import com.pickkasso.global.error.exception.RoundNotFoundException;
 
 import lombok.RequiredArgsConstructor;
@@ -44,10 +45,12 @@ public class PaintingService {
     private final RoundRepository roundRepository;
     private final CurriculumRepository curriculumRepository;
     private final MemberRepository memberRepository;
+
+    private final UserRoundService userRoundService;
     private final GoogleDriveService googleDriveService;
 
     public Painting addPainting(
-            MultipartFile file, AddPaintingRequest addPaintingRequest, Long memberId)
+            MultipartFile file, AddPaintingRequest addPaintingRequest, Member member)
             throws IOException {
         Painting painting = addPaintingRequest.toEntity();
         String fileName = file.getOriginalFilename();
@@ -55,21 +58,21 @@ public class PaintingService {
         String fileUrl = uploadPainting(file);
 
         painting.setPaintingLink(fileUrl);
-        painting.setMemberId(memberId);
+        painting.setMemberId(member.getId());
         painting.setPaintingName(fileName);
 
         if (!roundRepository.existsById(painting.getRoundId())) {
             throw new RoundNotFoundException(painting.getRoundId());
         }
 
-        paintingRepository.save(painting);
+        userRoundService.changeUserRoundState(member, addPaintingRequest.getRoundId());
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(file.getSize());
         s3Client.putObject(bucket, fileName, file.getInputStream(), metadata);
 
         byte[] fileContent = file.getBytes();
-        googleDriveService.uploadToGoogleDrive(memberId, fileContent);
+        googleDriveService.uploadToGoogleDrive(member.getId(), fileContent);
 
         return paintingRepository.save(painting);
     }
@@ -87,8 +90,9 @@ public class PaintingService {
         return fileUrl;
     }
 
-    public void deletePainting(Long paintingId) throws IOException {
+    public void deletePainting(Member member, Long paintingId) throws IOException {
         Painting painting = paintingRepository.findById(paintingId).orElseThrow();
+        userRoundService.changeUserRoundState(member, painting.getRoundId());
 
         try {
             s3Client.deleteObject(bucket, painting.getPaintingName());

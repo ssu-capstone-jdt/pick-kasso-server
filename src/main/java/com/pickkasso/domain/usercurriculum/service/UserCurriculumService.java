@@ -9,6 +9,7 @@ import com.pickkasso.domain.member.domain.Member;
 import com.pickkasso.domain.round.domain.Round;
 import com.pickkasso.domain.userRound.dao.UserRoundRepository;
 import com.pickkasso.domain.userRound.domain.UserRound;
+import com.pickkasso.domain.userRound.service.UserRoundService;
 import com.pickkasso.domain.usercurriculum.dao.UserCurriculumRepository;
 import com.pickkasso.domain.usercurriculum.domain.UserCurriculum;
 import com.pickkasso.domain.usercurriculum.dto.response.DeleteUserCurriculumResponse;
@@ -23,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class UserCurriculumService {
     private final UserCurriculumRepository userCurriculumRepository;
     private final UserRoundRepository userRoundRepository;
+    private final UserRoundService userRoundService;
     private final MemberUtil memberUtil;
 
     public List<UserCurriculum> findByMember(Member member) {
@@ -34,7 +36,7 @@ public class UserCurriculumService {
         UserCurriculum userCurriculum = UserCurriculum.createUserCurriculum(member, curr);
 
         for (Round round : curr.getRounds()) {
-            UserRound userRound = UserRound.createUserRound(member, round);
+            UserRound userRound = userRoundService.setUserRound(member, round);
             round.getUserRounds().add(userRound);
             member.getUserRounds().add(userRound);
         }
@@ -53,9 +55,18 @@ public class UserCurriculumService {
                         .findByMemberAndCurriculum(member, curriculum)
                         .orElseThrow(() -> new CustomException(ErrorCode.USER_CURR_NOT_FOUND));
 
-        List<UserRound> userRounds =
-                userRoundRepository.findByMemberAndRoundIn(member, curriculum.getRounds());
-        for (UserRound userRound : userRounds) {
+        //        //
+        //        List<UserRound> userRounds =
+        //                userRoundRepository.findByMemberAndRounds(member, curriculum.getRounds());
+        //        //
+        //
+        //        for (UserRound userRound : userRounds) {
+        //            member.getUserRounds().remove(userRound);
+        //            userRoundRepository.delete(userRound);
+        //        }
+
+        for (Round round : curriculum.getRounds()) {
+            UserRound userRound = userRoundRepository.findByMemberAndRound(member, round);
             member.getUserRounds().remove(userRound);
             userRoundRepository.delete(userRound);
         }
