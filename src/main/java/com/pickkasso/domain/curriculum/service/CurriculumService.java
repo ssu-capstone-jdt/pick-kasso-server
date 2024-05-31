@@ -28,6 +28,7 @@ import com.pickkasso.domain.usercurriculum.domain.UserCurriculum;
 import com.pickkasso.domain.usercurriculum.dto.response.DeleteUserCurriculumResponse;
 import com.pickkasso.domain.usercurriculum.dto.response.DownloadCurriculumResponse;
 import com.pickkasso.domain.usercurriculum.service.UserCurriculumService;
+import com.pickkasso.global.error.exception.CurriculumException;
 import com.pickkasso.global.error.exception.CustomException;
 import com.pickkasso.global.error.exception.ErrorCode;
 
@@ -69,6 +70,9 @@ public class CurriculumService {
 
     public DownloadCurriculumResponse downloadCurriculum(Long currId) {
         Curriculum curr = getCurriculum(currId);
+        if (userCurriculumService.isAlreadyDownloaded(curr)) {
+            throw new CurriculumException(currId);
+        }
         UserCurriculum userCurriculum = userCurriculumService.saveUserCurriculum(curr);
 
         return new DownloadCurriculumResponse(
