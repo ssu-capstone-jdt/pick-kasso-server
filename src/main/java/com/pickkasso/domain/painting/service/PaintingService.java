@@ -154,4 +154,11 @@ public class PaintingService {
             paintingRepository.save(painting);
         }
     }
+
+    public void deleteAllMemberPaintings(Member member) {
+        List<Painting> paintings = paintingRepository.findByMemberId(member.getId());
+        for (Painting painting : paintings) {
+            paintingRepository.delete(painting);
+        }
+    }
 }

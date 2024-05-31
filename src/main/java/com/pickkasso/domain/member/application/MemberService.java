@@ -29,8 +29,10 @@ public class MemberService {
 
     public void withdrawal(WithdrawalRequest request) {
         final Member member = memberUtil.getCurrentMember();
-        if (request.getDeletePaintingState()) {
+        if (!request.getDeletePaintingState()) {
             paintingService.changeMemberIdPaintings(member);
+        } else {
+            paintingService.deleteAllMemberPaintings(member);
         }
         userRoundService.deleteUserCurriculums(member);
         userCurriculumService.deleteMemberCurriculum(member);
