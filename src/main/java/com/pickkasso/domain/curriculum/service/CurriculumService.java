@@ -21,7 +21,6 @@ import com.pickkasso.domain.painting.service.PaintingService;
 import com.pickkasso.domain.round.domain.Round;
 import com.pickkasso.domain.round.dto.DownloadRoundResponse;
 import com.pickkasso.domain.round.service.RoundService;
-import com.pickkasso.domain.userRound.service.UserRoundService;
 import com.pickkasso.domain.usercurriculum.domain.StateType;
 import com.pickkasso.domain.usercurriculum.domain.UserCurriculum;
 import com.pickkasso.domain.usercurriculum.dto.response.DeleteUserCurriculumResponse;
@@ -105,7 +104,6 @@ public class CurriculumService {
                 roundService.getDownloadedRound(member, curriculum);
 
         return new SelectedCurriculumResponse(curriculumResponse, downloadRoundResponses);
-
     }
 
     public DeleteUserCurriculumResponse deleteUserCurriculum(Long currId) {

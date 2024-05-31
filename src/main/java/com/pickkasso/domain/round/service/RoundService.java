@@ -14,7 +14,6 @@ import com.pickkasso.domain.round.domain.Round;
 import com.pickkasso.domain.round.dto.DownloadRoundResponse;
 import com.pickkasso.domain.round.dto.RoundResponse;
 import com.pickkasso.domain.round.dto.UserRoundUploadStatus;
-import com.pickkasso.domain.userRound.domain.UserRound;
 import com.pickkasso.domain.userRound.service.UserRoundService;
 
 import lombok.RequiredArgsConstructor;
@@ -74,7 +73,6 @@ public class RoundService {
 
         return downloadRoundResponses;
     }
-
 
     public Round setRound(Curriculum curriculum, int order, int time, String explanation) {
         Round round =

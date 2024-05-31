@@ -28,7 +28,6 @@ public class UserRoundService {
         return userRoundRepository.save(userRound);
     }
 
-
     public List<UserRoundResponse> getUserRound(Member member, Curriculum curriculum) {
         List<UserRoundResponse> userRoundResponses = new ArrayList<>();
         for (Round round : curriculum.getRounds()) {

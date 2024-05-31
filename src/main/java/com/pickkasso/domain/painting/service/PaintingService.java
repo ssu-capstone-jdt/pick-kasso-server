@@ -54,7 +54,6 @@ public class PaintingService {
             throws IOException {
         Painting painting = addPaintingRequest.toEntity();
         String fileName = file.getOriginalFilename();
-
         String fileUrl = uploadPainting(file);
 
         painting.setPaintingLink(fileUrl);
