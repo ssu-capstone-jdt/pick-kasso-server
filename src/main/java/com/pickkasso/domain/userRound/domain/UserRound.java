@@ -29,7 +29,6 @@ public class UserRound {
     @Column(name = "progress_state")
     private boolean progressState;
 
-    // true : 진행 중
     @Builder
     public UserRound(Member member, Round round) {
         this.member = member;
@@ -41,11 +40,11 @@ public class UserRound {
         return UserRound.builder().member(member).round(round).build();
     }
 
-    public void changeState() {
-        if (progressState) {
-            progressState = false;
-        } else {
-            progressState = true;
-        }
+    public void changeStateTrue() {
+        progressState = true;
+    }
+
+    public void changeStateFalse() {
+        progressState = true;
     }
 }
