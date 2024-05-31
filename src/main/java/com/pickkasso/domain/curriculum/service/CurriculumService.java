@@ -19,10 +19,8 @@ import com.pickkasso.domain.curriculum.dto.response.UserCurriculumListViewRespon
 import com.pickkasso.domain.member.domain.Member;
 import com.pickkasso.domain.painting.service.PaintingService;
 import com.pickkasso.domain.round.domain.Round;
-import com.pickkasso.domain.round.dto.RoundResponse;
+import com.pickkasso.domain.round.dto.DownloadRoundResponse;
 import com.pickkasso.domain.round.service.RoundService;
-import com.pickkasso.domain.userRound.dto.UserRoundResponse;
-import com.pickkasso.domain.userRound.service.UserRoundService;
 import com.pickkasso.domain.usercurriculum.domain.StateType;
 import com.pickkasso.domain.usercurriculum.domain.UserCurriculum;
 import com.pickkasso.domain.usercurriculum.dto.response.DeleteUserCurriculumResponse;
@@ -41,7 +39,6 @@ public class CurriculumService {
     private final CurriculumRepository curriculumRepository;
     private final UserCurriculumService userCurriculumService;
     private final RoundService roundService;
-    private final UserRoundService userRoundService;
 
     private final PaintingService paintingService;
 
@@ -103,19 +100,10 @@ public class CurriculumService {
                                                 "Curriculum not found with id: " + id));
 
         CurriculumResponse curriculumResponse = new CurriculumResponse(curriculum);
-        List<RoundResponse> roundResponses = roundService.getRound(curriculum);
-        List<UserRoundResponse> userRoundResponses = new ArrayList<>();
+        List<DownloadRoundResponse> downloadRoundResponses =
+                roundService.getDownloadedRound(member, curriculum);
 
-        // if 문 추가
-        if (userRoundService.isDownload(member, curriculum)) {
-            userRoundResponses = userRoundService.getUserRound(member, curriculum);
-        }
-
-        SelectedCurriculumResponse selectedCurriculumResponse =
-                new SelectedCurriculumResponse(
-                        curriculumResponse, roundResponses, userRoundResponses);
-
-        return selectedCurriculumResponse;
+        return new SelectedCurriculumResponse(curriculumResponse, downloadRoundResponses);
     }
 
     public DeleteUserCurriculumResponse deleteUserCurriculum(Long currId) {

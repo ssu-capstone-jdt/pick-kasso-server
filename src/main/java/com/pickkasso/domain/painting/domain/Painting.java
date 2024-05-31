@@ -28,6 +28,9 @@ public class Painting extends BaseEntity {
     @Column(name = "painting_title")
     private String paintingTitle;
 
+    @Column(name = "painting_text")
+    private String paintingText;
+
     @Column(name = "painting_state")
     private boolean paintingState;
 
@@ -40,11 +43,13 @@ public class Painting extends BaseEntity {
             Long roundId,
             String paintingLink,
             String paintingTitle,
+            String paintingText,
             boolean paintingState) {
         this.memberId = memberId;
         this.roundId = roundId;
         this.paintingLink = paintingLink;
         this.paintingTitle = paintingTitle;
+        this.paintingText = paintingText;
         this.paintingState = paintingState;
     }
 

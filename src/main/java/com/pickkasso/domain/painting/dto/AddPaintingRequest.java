@@ -14,12 +14,14 @@ import lombok.Setter;
 @Setter
 public class AddPaintingRequest {
     private String paintingTitle;
+    private String paintingText;
     private boolean paintingState;
     private Long roundId;
 
     public Painting toEntity() {
         return Painting.builder()
                 .paintingTitle(paintingTitle)
+                .paintingText(paintingText)
                 .paintingState(paintingState)
                 .roundId(roundId)
                 .build();
