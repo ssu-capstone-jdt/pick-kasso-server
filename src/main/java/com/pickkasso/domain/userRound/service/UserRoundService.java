@@ -11,6 +11,7 @@ import com.pickkasso.domain.round.dao.RoundRepository;
 import com.pickkasso.domain.round.domain.Round;
 import com.pickkasso.domain.userRound.dao.UserRoundRepository;
 import com.pickkasso.domain.userRound.domain.UserRound;
+import com.pickkasso.domain.userRound.dto.UserRoundCompleteResponse;
 import com.pickkasso.domain.userRound.dto.UserRoundResponse;
 
 import lombok.RequiredArgsConstructor;
@@ -65,5 +66,13 @@ public class UserRoundService {
         Round round = roundRepository.findById(id).orElseThrow();
         UserRound userRound = userRoundRepository.findByMemberAndRound(member, round);
         userRound.changeState();
+    }
+
+    public UserRoundCompleteResponse isUploadSuccessful(Member member, long id) {
+        Round round = roundRepository.findById(id).orElseThrow();
+        if (userRoundRepository.existsByMemberAndRound(member, round)) {
+            return new UserRoundCompleteResponse(true);
+        }
+        return new UserRoundCompleteResponse(false);
     }
 }

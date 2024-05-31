@@ -79,4 +79,8 @@ public class UserCurriculumService {
         return new DeleteUserCurriculumResponse(
                 member.getNickname(), curriculum.getCurriculumTitle());
     }
+
+    public boolean isAlreadyDownloaded(Curriculum curriculum) {
+        return userCurriculumRepository.existsByCurriculum(curriculum);
+    }
 }
