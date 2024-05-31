@@ -14,6 +14,8 @@ import com.pickkasso.domain.userRound.dao.UserRoundRepository;
 import com.pickkasso.domain.userRound.domain.UserRound;
 import com.pickkasso.domain.userRound.dto.UserRoundCompleteResponse;
 import com.pickkasso.domain.userRound.dto.UserRoundResponse;
+import com.pickkasso.domain.usercurriculum.dao.UserCurriculumRepository;
+import com.pickkasso.domain.usercurriculum.domain.UserCurriculum;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class UserRoundService {
     private final UserRoundRepository userRoundRepository;
     private final RoundRepository roundRepository;
+    private final UserCurriculumRepository userCurriculumRepository;
 
     public UserRound setUserRound(Member member, Round round) {
         UserRound userRound = UserRound.createUserRound(member, round);
@@ -51,7 +54,24 @@ public class UserRoundService {
     public void changeUserRoundState(Member member, long id) {
         Round round = roundRepository.findById(id).orElseThrow();
         UserRound userRound = userRoundRepository.findByMemberAndRound(member, round);
+        boolean isComplete = true;
+
         userRound.changeState();
+        for (UserRound getUserRound : round.getUserRounds()) {
+            if (!getUserRound.isProgressState()) {
+                isComplete = false;
+                break;
+            }
+        }
+        if (isComplete) {
+            Curriculum curriculum = round.getCurriculum();
+            UserCurriculum userCurriculum =
+                    userCurriculumRepository
+                            .findByMemberAndCurriculum(member, curriculum)
+                            .orElseThrow();
+
+            userCurriculum.changeStateType();
+        }
     }
 
     public UserRoundCompleteResponse isUploadSuccessful(Member member, long id) {

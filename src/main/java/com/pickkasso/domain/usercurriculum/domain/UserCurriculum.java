@@ -40,4 +40,8 @@ public class UserCurriculum {
     public static UserCurriculum createUserCurriculum(Member member, Curriculum curr) {
         return UserCurriculum.builder().member(member).curriculum(curr).build();
     }
+
+    public void changeStateType() {
+        this.state = StateType.Completed;
+    }
 }
