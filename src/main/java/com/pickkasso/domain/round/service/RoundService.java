@@ -1,5 +1,6 @@
 package com.pickkasso.domain.round.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,10 +8,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pickkasso.domain.curriculum.domain.Curriculum;
+import com.pickkasso.domain.member.domain.Member;
 import com.pickkasso.domain.round.dao.RoundRepository;
 import com.pickkasso.domain.round.domain.Round;
+import com.pickkasso.domain.round.dto.DownloadRoundResponse;
 import com.pickkasso.domain.round.dto.RoundResponse;
+import com.pickkasso.domain.round.dto.UserRoundUploadStatus;
 import com.pickkasso.domain.userRound.domain.UserRound;
+import com.pickkasso.domain.userRound.service.UserRoundService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 @Transactional
 public class RoundService {
     private final RoundRepository roundRepository;
+    private final UserRoundService userRoundService;
 
     public List<RoundResponse> getRound(Curriculum curriculum) {
         List<Round> rounds = roundRepository.findByCurriculum(curriculum);
@@ -36,10 +42,39 @@ public class RoundService {
         return roundResponses;
     }
 
-    public void addRound(Curriculum curriculum, UserRound userRound) {
-        Round round = userRound.getRound();
-        round.getUserRounds().add(userRound);
+    public List<DownloadRoundResponse> getDownloadedRound(Member member, Curriculum curriculum) {
+        List<Round> rounds = roundRepository.findByCurriculum(curriculum);
+        List<DownloadRoundResponse> downloadRoundResponses = new ArrayList<>();
+
+        if (userRoundService.isDownload(member, curriculum)) {
+            downloadRoundResponses =
+                    rounds.stream()
+                            .map(
+                                    round ->
+                                            new DownloadRoundResponse(
+                                                    round.getRoundSeq(),
+                                                    round.getTime(),
+                                                    round.getExplanation(),
+                                                    round.getId(),
+                                                    userRoundService.isSuccessful(member, round)))
+                            .collect(Collectors.toList());
+        } else {
+            downloadRoundResponses =
+                    rounds.stream()
+                            .map(
+                                    round ->
+                                            new DownloadRoundResponse(
+                                                    round.getRoundSeq(),
+                                                    round.getTime(),
+                                                    round.getExplanation(),
+                                                    round.getId(),
+                                                    UserRoundUploadStatus.Null))
+                            .collect(Collectors.toList());
+        }
+
+        return downloadRoundResponses;
     }
+
 
     public Round setRound(Curriculum curriculum, int order, int time, String explanation) {
         Round round =
