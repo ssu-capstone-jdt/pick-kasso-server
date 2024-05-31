@@ -79,4 +79,11 @@ public class UserCurriculumService {
     public boolean isAlreadyDownloaded(Member member, Curriculum curriculum) {
         return userCurriculumRepository.existsByMemberAndCurriculum(member, curriculum);
     }
+
+    public void deleteMemberCurriculum(Member member) {
+        List<UserCurriculum> curriculumList = userCurriculumRepository.findByMember(member);
+        for (UserCurriculum userCurriculum : curriculumList) {
+            userCurriculumRepository.delete(userCurriculum);
+        }
+    }
 }
