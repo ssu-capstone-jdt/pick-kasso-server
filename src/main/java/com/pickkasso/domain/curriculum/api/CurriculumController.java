@@ -10,7 +10,6 @@ import com.pickkasso.domain.curriculum.dto.request.AddCurriculumRequest;
 import com.pickkasso.domain.curriculum.dto.response.*;
 import com.pickkasso.domain.curriculum.service.CurriculumService;
 import com.pickkasso.domain.member.domain.Member;
-import com.pickkasso.domain.userRound.service.UserRoundService;
 import com.pickkasso.domain.usercurriculum.dto.response.DeleteUserCurriculumResponse;
 import com.pickkasso.domain.usercurriculum.dto.response.DownloadCurriculumResponse;
 import com.pickkasso.global.util.MemberUtil;
@@ -23,8 +22,6 @@ import lombok.RequiredArgsConstructor;
 public class CurriculumController {
     private final CurriculumService curriculumService;
 
-    //
-    private final UserRoundService userRoundService;
     private final MemberUtil memberUtil;
 
     @GetMapping
@@ -49,12 +46,14 @@ public class CurriculumController {
 
     @PostMapping("/{currId}")
     public DownloadCurriculumResponse downloadCurriculum(@PathVariable Long currId) {
-        return curriculumService.downloadCurriculum(currId);
+        final Member member = memberUtil.getCurrentMember();
+        return curriculumService.downloadCurriculum(member, currId);
     }
 
     @DeleteMapping("/{currId}")
     public DeleteUserCurriculumResponse deleteUserCurriculum(@PathVariable Long currId) {
-        return curriculumService.deleteUserCurriculum(currId);
+        final Member member = memberUtil.getCurrentMember();
+        return curriculumService.deleteUserCurriculum(member, currId);
     }
 
     @PostMapping

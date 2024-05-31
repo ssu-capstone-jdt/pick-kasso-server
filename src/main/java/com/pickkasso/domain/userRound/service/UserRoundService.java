@@ -62,12 +62,12 @@ public class UserRoundService {
         return new UserRoundCompleteResponse(false);
     }
 
-
     public void deleteUserCurriculums(Member member) {
         List<UserRound> userRounds = userRoundRepository.findByMember(member);
         for (UserRound userRound : userRounds) {
             userRoundRepository.delete(userRound);
         }
+    }
 
     public UserRoundUploadStatus isSuccessful(Member member, Round round) {
         UserRound userRound = userRoundRepository.findByMemberAndRound(member, round);

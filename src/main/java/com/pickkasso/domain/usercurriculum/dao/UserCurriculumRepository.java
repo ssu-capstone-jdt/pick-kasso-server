@@ -14,5 +14,5 @@ public interface UserCurriculumRepository extends JpaRepository<UserCurriculum, 
 
     Optional<UserCurriculum> findByMemberAndCurriculum(Member member, Curriculum curriculum);
 
-    boolean existsByCurriculum(Curriculum curriculum);
+    boolean existsByMemberAndCurriculum(Member member, Curriculum curriculum);
 }

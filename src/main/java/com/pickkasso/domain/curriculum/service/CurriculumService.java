@@ -65,12 +65,12 @@ public class CurriculumService {
         return allCurriculumListViewResponses;
     }
 
-    public DownloadCurriculumResponse downloadCurriculum(Long currId) {
+    public DownloadCurriculumResponse downloadCurriculum(Member member, Long currId) {
         Curriculum curr = getCurriculum(currId);
-        if (userCurriculumService.isAlreadyDownloaded(curr)) {
+        if (userCurriculumService.isAlreadyDownloaded(member, curr)) {
             throw new CurriculumException(currId);
         }
-        UserCurriculum userCurriculum = userCurriculumService.saveUserCurriculum(curr);
+        UserCurriculum userCurriculum = userCurriculumService.saveUserCurriculum(member, curr);
 
         return new DownloadCurriculumResponse(
                 userCurriculum.getMember().getNickname(), curr.getCurriculumTitle());
@@ -106,9 +106,9 @@ public class CurriculumService {
         return new SelectedCurriculumResponse(curriculumResponse, downloadRoundResponses);
     }
 
-    public DeleteUserCurriculumResponse deleteUserCurriculum(Long currId) {
+    public DeleteUserCurriculumResponse deleteUserCurriculum(Member member, Long currId) {
         Curriculum curriculum = getCurriculum(currId);
-        return userCurriculumService.deleteUserCurriculum(curriculum);
+        return userCurriculumService.deleteUserCurriculum(member, curriculum);
     }
 
     private Curriculum getCurriculum(Long currId) {
