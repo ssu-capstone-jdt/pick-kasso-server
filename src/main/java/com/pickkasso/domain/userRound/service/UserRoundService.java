@@ -9,6 +9,7 @@ import com.pickkasso.domain.curriculum.domain.Curriculum;
 import com.pickkasso.domain.member.domain.Member;
 import com.pickkasso.domain.round.dao.RoundRepository;
 import com.pickkasso.domain.round.domain.Round;
+import com.pickkasso.domain.round.dto.UserRoundUploadStatus;
 import com.pickkasso.domain.userRound.dao.UserRoundRepository;
 import com.pickkasso.domain.userRound.domain.UserRound;
 import com.pickkasso.domain.userRound.dto.UserRoundCompleteResponse;
@@ -27,20 +28,6 @@ public class UserRoundService {
         return userRoundRepository.save(userRound);
     }
 
-    //    public List<UserRoundResponse> getUserRound(Member member, Curriculum curriculum) {
-    //        List<UserRoundResponse> userRoundResponses = new ArrayList<>();
-    //        for (Round round : curriculum.getRounds()) {
-    //            List<UserRound> userRounds = userRoundRepository.findByMemberAndRound(member,
-    // round);
-    //            for (UserRound userRound : userRounds) {
-    //                UserRoundResponse userRoundResponse = new UserRoundResponse();
-    //                userRoundResponse.setUserRoundResponse(userRound.isProgressState());
-    //                userRoundResponses.add(userRoundResponse);
-    //            }
-    //        }
-    //        return userRoundResponses;
-    //    }
-
     public List<UserRoundResponse> getUserRound(Member member, Curriculum curriculum) {
         List<UserRoundResponse> userRoundResponses = new ArrayList<>();
         for (Round round : curriculum.getRounds()) {
@@ -53,7 +40,6 @@ public class UserRoundService {
     }
 
     public boolean isDownload(Member member, Curriculum curriculum) {
-        List<UserRoundResponse> userRoundResponses = new ArrayList<>();
         for (Round round : curriculum.getRounds()) {
             if (!userRoundRepository.existsByMemberAndRound(member, round)) {
                 return false;
@@ -76,10 +62,18 @@ public class UserRoundService {
         return new UserRoundCompleteResponse(false);
     }
 
+
     public void deleteUserCurriculums(Member member) {
         List<UserRound> userRounds = userRoundRepository.findByMember(member);
         for (UserRound userRound : userRounds) {
             userRoundRepository.delete(userRound);
         }
+
+    public UserRoundUploadStatus isSuccessful(Member member, Round round) {
+        UserRound userRound = userRoundRepository.findByMemberAndRound(member, round);
+        if (userRound.isProgressState()) {
+            return UserRoundUploadStatus.True;
+        }
+        return UserRoundUploadStatus.False;
     }
 }
