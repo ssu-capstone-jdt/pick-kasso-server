@@ -15,7 +15,6 @@ import com.pickkasso.domain.usercurriculum.domain.UserCurriculum;
 import com.pickkasso.domain.usercurriculum.dto.response.DeleteUserCurriculumResponse;
 import com.pickkasso.global.error.exception.CustomException;
 import com.pickkasso.global.error.exception.ErrorCode;
-import com.pickkasso.global.util.MemberUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,14 +24,12 @@ public class UserCurriculumService {
     private final UserCurriculumRepository userCurriculumRepository;
     private final UserRoundRepository userRoundRepository;
     private final UserRoundService userRoundService;
-    private final MemberUtil memberUtil;
 
     public List<UserCurriculum> findByMember(Member member) {
         return userCurriculumRepository.findByMember(member);
     }
 
-    public UserCurriculum saveUserCurriculum(Curriculum curr) {
-        Member member = memberUtil.getCurrentMember();
+    public UserCurriculum saveUserCurriculum(Member member, Curriculum curr) {
         UserCurriculum userCurriculum = UserCurriculum.createUserCurriculum(member, curr);
 
         for (Round round : curr.getRounds()) {
@@ -47,8 +44,7 @@ public class UserCurriculumService {
         return userCurriculum;
     }
 
-    public DeleteUserCurriculumResponse deleteUserCurriculum(Curriculum curriculum) {
-        Member member = memberUtil.getCurrentMember();
+    public DeleteUserCurriculumResponse deleteUserCurriculum(Member member, Curriculum curriculum) {
 
         UserCurriculum userCurriculum =
                 userCurriculumRepository
@@ -80,7 +76,7 @@ public class UserCurriculumService {
                 member.getNickname(), curriculum.getCurriculumTitle());
     }
 
-    public boolean isAlreadyDownloaded(Curriculum curriculum) {
-        return userCurriculumRepository.existsByCurriculum(curriculum);
+    public boolean isAlreadyDownloaded(Member member, Curriculum curriculum) {
+        return userCurriculumRepository.existsByMemberAndCurriculum(member, curriculum);
     }
 }
