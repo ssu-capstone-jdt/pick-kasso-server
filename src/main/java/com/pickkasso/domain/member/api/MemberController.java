@@ -2,12 +2,10 @@ package com.pickkasso.domain.member.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.pickkasso.domain.member.application.MemberService;
+import com.pickkasso.domain.member.dto.request.WithdrawalRequest;
 import com.pickkasso.domain.member.dto.response.MemberInfoResponse;
 import com.pickkasso.global.util.CookieUtil;
 
@@ -26,8 +24,8 @@ public class MemberController {
     }
 
     @DeleteMapping("/withdrawal")
-    public ResponseEntity<Void> memberWithdrawal() {
-        memberService.withdrawal();
+    public ResponseEntity<Void> memberWithdrawal(@RequestBody WithdrawalRequest request) {
+        memberService.withdrawal(request);
         return ResponseEntity.status(HttpStatus.OK)
                 .headers(cookieUtil.deleteTokenCookies())
                 .build();

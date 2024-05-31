@@ -146,4 +146,12 @@ public class PaintingService {
         }
         return stampListViewResponses;
     }
+
+    public void changeMemberIdPaintings(Member member) {
+        List<Painting> paintings = paintingRepository.findByMemberId(member.getId());
+        for (Painting painting : paintings) {
+            painting.setMemberId(0L);
+            paintingRepository.save(painting);
+        }
+    }
 }
