@@ -32,7 +32,6 @@ public class GoogleDriveService {
 
     public void uploadToGoogleDrive(Long memberId, byte[] fileContent) {
         GoogleAccessTokenResponse response = getAccessToken(memberId);
-        updateGoogleRefreshToken(memberId, response.getRefreshToken());
         String accessToken = setBearer(response.getAccessToken());
         GoogleDriveFileResponse uploadResponse =
                 googleDriveApiClient.uploadFile(accessToken, IMAGE_CONTENT_TYPE, fileContent);
@@ -42,15 +41,6 @@ public class GoogleDriveService {
 
     public String setBearer(String accessToken) {
         return SecurityConstants.TOKEN_PREFIX.concat(accessToken);
-    }
-
-    private void updateGoogleRefreshToken(Long memberId, String newRefreshToken) {
-        GoogleRefreshToken googleRefreshToken =
-                refreshTokenRepository
-                        .findById(memberId)
-                        .orElseThrow(() -> new CustomException(ErrorCode.REFRESH_TOKEN_NOT_FOUND));
-        googleRefreshToken.setToken(newRefreshToken);
-        refreshTokenRepository.save(googleRefreshToken);
     }
 
     private GoogleAccessTokenResponse getAccessToken(Long memberId) {
