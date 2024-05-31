@@ -40,11 +40,11 @@ public class UserRound {
         return UserRound.builder().member(member).round(round).build();
     }
 
-    public void changeState() {
-        if (progressState) {
-            progressState = false;
-        } else {
-            progressState = true;
-        }
+    public void changeStateTrue() {
+        progressState = true;
+    }
+
+    public void changeStateFalse() {
+        progressState = true;
     }
 }

@@ -51,12 +51,35 @@ public class UserRoundService {
         return true;
     }
 
-    public void changeUserRoundState(Member member, long id) {
+    public void changeUserRoundStateUpload(Member member, long id) {
         Round round = roundRepository.findById(id).orElseThrow();
         UserRound userRound = userRoundRepository.findByMemberAndRound(member, round);
         boolean isComplete = true;
 
-        userRound.changeState();
+        userRound.changeStateTrue();
+        for (UserRound getUserRound : round.getUserRounds()) {
+            if (!getUserRound.isProgressState()) {
+                isComplete = false;
+                break;
+            }
+        }
+        if (isComplete) {
+            Curriculum curriculum = round.getCurriculum();
+            UserCurriculum userCurriculum =
+                    userCurriculumRepository
+                            .findByMemberAndCurriculum(member, curriculum)
+                            .orElseThrow();
+
+            userCurriculum.changeStateType();
+        }
+    }
+
+    public void changeUserRoundStateDelete(Member member, long id) {
+        Round round = roundRepository.findById(id).orElseThrow();
+        UserRound userRound = userRoundRepository.findByMemberAndRound(member, round);
+        boolean isComplete = true;
+
+        userRound.changeStateFalse();
         for (UserRound getUserRound : round.getUserRounds()) {
             if (!getUserRound.isProgressState()) {
                 isComplete = false;

@@ -64,7 +64,7 @@ public class PaintingService {
             throw new RoundNotFoundException(painting.getRoundId());
         }
 
-        userRoundService.changeUserRoundState(member, addPaintingRequest.getRoundId());
+        userRoundService.changeUserRoundStateUpload(member, addPaintingRequest.getRoundId());
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(file.getSize());
@@ -91,7 +91,7 @@ public class PaintingService {
 
     public void deletePainting(Member member, Long paintingId) throws IOException {
         Painting painting = paintingRepository.findById(paintingId).orElseThrow();
-        userRoundService.changeUserRoundState(member, painting.getRoundId());
+        userRoundService.changeUserRoundStateDelete(member, painting.getRoundId());
 
         try {
             s3Client.deleteObject(bucket, painting.getPaintingName());
