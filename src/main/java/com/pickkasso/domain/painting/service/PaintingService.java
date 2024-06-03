@@ -92,6 +92,7 @@ public class PaintingService {
     public void deletePainting(Member member, Long paintingId) throws IOException {
         Painting painting = paintingRepository.findById(paintingId).orElseThrow();
         userRoundService.changeUserRoundStateDelete(member, painting.getRoundId());
+        paintingRepository.delete(painting);
 
         try {
             s3Client.deleteObject(bucket, painting.getPaintingName());
