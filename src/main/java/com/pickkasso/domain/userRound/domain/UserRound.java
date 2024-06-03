@@ -45,6 +45,6 @@ public class UserRound {
     }
 
     public void changeStateFalse() {
-        progressState = true;
+        progressState = false;
     }
 }

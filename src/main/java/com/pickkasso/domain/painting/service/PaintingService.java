@@ -93,6 +93,7 @@ public class PaintingService {
     public void deletePainting(Member member, Long paintingId) throws IOException {
         Painting painting = paintingRepository.findById(paintingId).orElseThrow();
         userRoundService.changeUserRoundStateDelete(member, painting.getRoundId());
+        paintingRepository.delete(painting);
 
         if (painting.getMemberId().equals(member.getId())) {
             try {
