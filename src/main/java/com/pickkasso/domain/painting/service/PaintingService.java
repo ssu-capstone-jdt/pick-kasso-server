@@ -27,6 +27,7 @@ import com.pickkasso.domain.painting.dto.UserPaintingListViewResponse;
 import com.pickkasso.domain.round.dao.RoundRepository;
 import com.pickkasso.domain.round.domain.Round;
 import com.pickkasso.domain.userRound.service.UserRoundService;
+import com.pickkasso.global.error.exception.PaintingException;
 import com.pickkasso.global.error.exception.RoundNotFoundException;
 
 import lombok.RequiredArgsConstructor;
@@ -93,10 +94,14 @@ public class PaintingService {
         Painting painting = paintingRepository.findById(paintingId).orElseThrow();
         userRoundService.changeUserRoundStateDelete(member, painting.getRoundId());
 
-        try {
-            s3Client.deleteObject(bucket, painting.getPaintingName());
-        } catch (SdkClientException e) {
-            throw new IOException("Error deleting file");
+        if (painting.getMemberId().equals(member.getId())) {
+            try {
+                s3Client.deleteObject(bucket, painting.getPaintingName());
+            } catch (SdkClientException e) {
+                throw new IOException("Error deleting file");
+            }
+        } else {
+            throw new PaintingException();
         }
     }
 
@@ -107,11 +112,17 @@ public class PaintingService {
             Round round = roundRepository.findById(painting.getRoundId()).orElseThrow();
             Curriculum curriculum =
                     curriculumRepository.findById(round.getCurriculum().getId()).orElseThrow();
-            Member member = memberRepository.findById(painting.getMemberId()).orElseThrow();
+            String memberNickName = "";
+            if (painting.getMemberId().equals(0L)) {
+                memberNickName = "탈퇴한 유저";
+            } else {
+                Member member = memberRepository.findById(painting.getMemberId()).orElseThrow();
+                memberNickName = member.getNickname();
+            }
             AllPaintingListViewResponse allPaintingListViewResponse =
                     new AllPaintingListViewResponse(
                             painting.getPaintingLink(),
-                            member.getNickname(),
+                            memberNickName,
                             painting.getPaintingLink(),
                             painting.getPaintingTitle(),
                             curriculum.getCurriculumTitle(),
