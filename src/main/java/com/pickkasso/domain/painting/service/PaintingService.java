@@ -122,7 +122,6 @@ public class PaintingService {
             }
             AllPaintingListViewResponse allPaintingListViewResponse =
                     new AllPaintingListViewResponse(
-                            painting.getPaintingLink(),
                             memberNickName,
                             painting.getPaintingLink(),
                             painting.getPaintingTitle(),
