@@ -64,6 +64,8 @@ public class PaintingService {
             throw new RoundNotFoundException(painting.getRoundId());
         }
 
+        // Curriculum curriculum = curriculumRepository.findByRound(addPaintingRequest.getRoundId);
+
         userRoundService.changeUserRoundStateUpload(member, addPaintingRequest.getRoundId());
 
         ObjectMetadata metadata = new ObjectMetadata();

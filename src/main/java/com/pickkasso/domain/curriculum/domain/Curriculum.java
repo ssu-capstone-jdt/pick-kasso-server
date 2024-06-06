@@ -21,10 +21,10 @@ public class Curriculum {
     @Column(name = "curriculum_id")
     private Long id;
 
-    @Column(name = "curriculum_title", length = 10)
+    @Column(name = "curriculum_title", length = 20)
     private String curriculumTitle;
 
-    @Column(name = "curriculum_info", length = 20)
+    @Column(name = "curriculum_info", length = 40)
     private String curriculumInfo;
 
     @Column(name = "curriculum_explanation", length = 100)
