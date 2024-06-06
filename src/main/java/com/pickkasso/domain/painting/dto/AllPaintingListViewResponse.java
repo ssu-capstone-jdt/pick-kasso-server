@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @Getter
 public class AllPaintingListViewResponse {
 
-    private String paintingProfile;
     private String memberNickname;
     private String paintingLink;
     private String paintingTitle;
@@ -16,13 +15,11 @@ public class AllPaintingListViewResponse {
     private String curriculumInfo;
 
     public AllPaintingListViewResponse(
-            String paintingProfile,
             String memberNickname,
             String paintingLink,
             String paintingTitle,
             String curriculumTitle,
             String curriculumInfo) {
-        this.paintingProfile = paintingProfile;
         this.memberNickname = memberNickname;
         this.paintingLink = paintingLink;
         this.paintingTitle = paintingTitle;
