@@ -51,20 +51,21 @@ public class UserRoundService {
         return true;
     }
 
-    public void changeUserRoundStateUpload(Member member, long id) {
-        Round round = roundRepository.findById(id).orElseThrow();
+    public void changeUserRoundStateUpload(Member member, long roundId) {
+        Round round = roundRepository.findById(roundId).orElseThrow();
+        Curriculum curriculum = round.getCurriculum();
         UserRound userRound = userRoundRepository.findByMemberAndRound(member, round);
         boolean isComplete = true;
 
         userRound.changeStateTrue();
-        for (UserRound getUserRound : round.getUserRounds()) {
+        for (Round getRound : curriculum.getRounds()) {
+            UserRound getUserRound = userRoundRepository.findByMemberAndRound(member, getRound);
             if (!getUserRound.isProgressState()) {
                 isComplete = false;
                 break;
             }
         }
         if (isComplete) {
-            Curriculum curriculum = round.getCurriculum();
             UserCurriculum userCurriculum =
                     userCurriculumRepository
                             .findByMemberAndCurriculum(member, curriculum)
