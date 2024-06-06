@@ -9,6 +9,7 @@ import lombok.Getter;
 @Getter
 public class UserPaintingListViewResponse {
     private Long id;
+    private Long curriculumId;
     private String paintingLink;
     private String paintingTitle;
     private String curriculumTitle;
@@ -16,6 +17,7 @@ public class UserPaintingListViewResponse {
 
     public UserPaintingListViewResponse(Painting painting, Curriculum curriculum) {
         this.id = painting.getId();
+        this.curriculumId = curriculum.getId();
         this.paintingLink = painting.getPaintingLink();
         this.paintingTitle = painting.getPaintingTitle();
         this.curriculumTitle = curriculum.getCurriculumTitle();
