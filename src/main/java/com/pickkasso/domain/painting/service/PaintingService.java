@@ -163,11 +163,14 @@ public class PaintingService {
     public List<UserPaintingListViewResponse> getUsersPaintings(Long memberId) {
         List<Painting> paintings = paintingRepository.findByMemberId(memberId);
         List<UserPaintingListViewResponse> userPaintingListViewResponses = new ArrayList<>();
+        List<Round> rounds = roundRepository.findAll();
+        List<Curriculum> curriculums = curriculumRepository.findAll();
         for (Painting painting : paintings) {
-            Round round = roundRepository.findById(painting.getRoundId()).orElseThrow();
-            Curriculum curriculum =
-                    curriculumRepository.findById(round.getCurriculum().getId()).orElseThrow();
-            Member member = memberRepository.findById(painting.getMemberId()).orElseThrow();
+//            Round round = roundRepository.findById(painting.getRoundId()).orElseThrow();
+//            Curriculum curriculum =
+//                    curriculumRepository.findById(round.getCurriculum().getId()).orElseThrow();
+            Round round = findRound(rounds, painting.getRoundId());
+            Curriculum curriculum = findCurriculum(curriculums, round.getCurriculum().getId());
             UserPaintingListViewResponse userPaintingListViewResponse =
                     new UserPaintingListViewResponse(painting, curriculum);
             userPaintingListViewResponses.add(userPaintingListViewResponse);
