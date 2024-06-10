@@ -109,14 +109,21 @@ public class PaintingService {
     }
 
     public List<AllPaintingListViewResponse> getAllPaintings() {
-        List<Painting> paintings = paintingRepository.findByPaintingState(true);
         List<AllPaintingListViewResponse> allPaintingListViewResponses = new ArrayList<>();
+        List<Painting> paintings = paintingRepository.findByPaintingState(true);
+        List<Curriculum> curriculums = curriculumRepository.findAll();
+        List<Round> rounds = roundRepository.findAll();
+
         for (Painting painting : paintings) {
-            Round round = roundRepository.findById(painting.getRoundId()).orElseThrow();
-            Curriculum curriculum =
-                    curriculumRepository.findById(round.getCurriculum().getId()).orElseThrow();
+            //            Round round =
+            // roundRepository.findById(painting.getRoundId()).orElseThrow();
+            Round round = findRound(rounds, painting.getRoundId());
+            //            Curriculum curriculum =
+            //
+            // curriculumRepository.findById(round.getCurriculum().getId()).orElseThrow();
+            Curriculum curriculum = findCurriculum(curriculums, round.getCurriculum().getId());
             String memberNickName = "";
-            if (painting.getMemberId().equals(0L)) {
+            if (painting.getMemberId() == 0L) {
                 memberNickName = "탈퇴한 유저";
             } else {
                 Member member = memberRepository.findById(painting.getMemberId()).orElseThrow();
@@ -133,6 +140,24 @@ public class PaintingService {
             allPaintingListViewResponses.add(allPaintingListViewResponse);
         }
         return allPaintingListViewResponses;
+    }
+
+    private Curriculum findCurriculum(List<Curriculum> curriculums, Long curriculum) {
+        for (Curriculum curriculum1 : curriculums) {
+            if (curriculum1.getId() == curriculum) {
+                return curriculum1;
+            }
+        }
+        return null;
+    }
+
+    private Round findRound(List<Round> rounds, Long roundId) {
+        for (Round round : rounds) {
+            if (round.getId().equals(roundId)) {
+                return round;
+            }
+        }
+        return null;
     }
 
     public List<UserPaintingListViewResponse> getUsersPaintings(Long memberId) {
