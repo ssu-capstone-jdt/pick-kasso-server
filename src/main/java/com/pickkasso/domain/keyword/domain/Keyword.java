@@ -16,7 +16,7 @@ public class Keyword {
     @Column(name = "keyword_id")
     private Long id;
 
-    @Column(name = "keyword_title", length = 20)
+    @Column(name = "keyword_title", length = 30)
     private String keywordTitle;
 
     @Column(name = "image_link", nullable = false)
