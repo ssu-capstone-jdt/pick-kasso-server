@@ -166,9 +166,11 @@ public class PaintingService {
         List<Round> rounds = roundRepository.findAll();
         List<Curriculum> curriculums = curriculumRepository.findAll();
         for (Painting painting : paintings) {
-//            Round round = roundRepository.findById(painting.getRoundId()).orElseThrow();
-//            Curriculum curriculum =
-//                    curriculumRepository.findById(round.getCurriculum().getId()).orElseThrow();
+            //            Round round =
+            // roundRepository.findById(painting.getRoundId()).orElseThrow();
+            //            Curriculum curriculum =
+            //
+            // curriculumRepository.findById(round.getCurriculum().getId()).orElseThrow();
             Round round = findRound(rounds, painting.getRoundId());
             Curriculum curriculum = findCurriculum(curriculums, round.getCurriculum().getId());
             UserPaintingListViewResponse userPaintingListViewResponse =
