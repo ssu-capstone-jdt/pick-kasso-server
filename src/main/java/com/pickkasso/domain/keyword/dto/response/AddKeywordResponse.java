@@ -1,4 +1,4 @@
-package com.pickkasso.domain.keyword.dto;
+package com.pickkasso.domain.keyword.dto.response;
 
 import java.util.List;
 
