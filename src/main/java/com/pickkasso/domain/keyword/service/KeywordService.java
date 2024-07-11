@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.pickkasso.domain.keyword.dao.FixedDateRepository;
 import com.pickkasso.domain.keyword.dao.KeywordRepository;
 import com.pickkasso.domain.keyword.dao.TodaykeywordRepository;
-import com.pickkasso.domain.keyword.domain.FixedDate;
 import com.pickkasso.domain.keyword.domain.Keyword;
 import com.pickkasso.domain.keyword.domain.TodayKeyword;
 import com.pickkasso.domain.keyword.dto.request.AddKeywordRequest;
