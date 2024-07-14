@@ -7,17 +7,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.pickkasso.domain.keyword.dao.KeywordRepository;
+
 import com.pickkasso.domain.keyword.dao.TodaykeywordRepository;
 import com.pickkasso.domain.keyword.domain.Keyword;
 import com.pickkasso.domain.keyword.domain.TodayKeyword;
 import com.pickkasso.domain.keyword.dto.request.AddKeywordRequest;
 import com.pickkasso.domain.keyword.dto.response.*;
+
 import com.pickkasso.domain.painting.service.PaintingService;
 
 import lombok.RequiredArgsConstructor;
@@ -28,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 public class KeywordService {
 
     private final KeywordRepository keywordRepository;
+
     private final TodaykeywordRepository todaykeywordRepository;
 
     private final PaintingService paintingService;
@@ -115,4 +121,5 @@ public class KeywordService {
     public void deleteAllTodaykeyword() {
         todaykeywordRepository.deleteAll();
     }
+
 }
