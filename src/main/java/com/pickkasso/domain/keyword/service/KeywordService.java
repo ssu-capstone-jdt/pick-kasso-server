@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.pickkasso.domain.keyword.dao.FixedDateRepository;
 import com.pickkasso.domain.keyword.dao.KeywordRepository;
 import com.pickkasso.domain.keyword.dao.TodaykeywordRepository;
 import com.pickkasso.domain.keyword.domain.Keyword;
@@ -31,7 +30,6 @@ public class KeywordService {
     private final KeywordRepository keywordRepository;
     private final TodaykeywordRepository todaykeywordRepository;
 
-    private final FixedDateRepository fixedDateRepository;
     private final PaintingService paintingService;
 
     public List<KeywordResponse> findAllKeyword() {
@@ -117,5 +115,4 @@ public class KeywordService {
     public void deleteAllTodaykeyword() {
         todaykeywordRepository.deleteAll();
     }
-
 }
